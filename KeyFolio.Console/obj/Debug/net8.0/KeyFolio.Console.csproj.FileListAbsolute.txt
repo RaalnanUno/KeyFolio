@@ -1,0 +1,23 @@
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\bin\Debug\net8.0\KeyFolio.Console.exe
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\bin\Debug\net8.0\KeyFolio.Console.deps.json
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\bin\Debug\net8.0\KeyFolio.Console.runtimeconfig.json
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\bin\Debug\net8.0\KeyFolio.Console.dll
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\bin\Debug\net8.0\KeyFolio.Console.pdb
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\bin\Debug\net8.0\KeyFolio.Core.dll
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\bin\Debug\net8.0\KeyFolio.Core.pdb
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\bin\Debug\net8.0\KeyFolio.Core.xml
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\obj\Debug\net8.0\KeyFolio.Console.csproj.AssemblyReference.cache
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\obj\Debug\net8.0\KeyFolio.Console.GeneratedMSBuildEditorConfig.editorconfig
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\obj\Debug\net8.0\KeyFolio.Console.AssemblyInfoInputs.cache
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\obj\Debug\net8.0\KeyFolio.Console.AssemblyInfo.cs
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\obj\Debug\net8.0\KeyFolio.Console.csproj.CoreCompileInputs.cache
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\obj\Debug\net8.0\KeyFolio.Console.sourcelink.json
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\obj\Debug\net8.0\KeyFolio.35236BDA.Up2Date
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\obj\Debug\net8.0\KeyFolio.Console.dll
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\obj\Debug\net8.0\refint\KeyFolio.Console.dll
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\obj\Debug\net8.0\KeyFolio.Console.pdb
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\obj\Debug\net8.0\KeyFolio.Console.genruntimeconfig.cache
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\obj\Debug\net8.0\ref\KeyFolio.Console.dll
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\bin\Debug\net8.0\RunExamples\PipeInput.ps1
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\bin\Debug\net8.0\RunExamples\With env var set (PowerShell session-only).ps1
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Console\bin\Debug\net8.0\RunExamples\Without env var (will prompt).ps1
