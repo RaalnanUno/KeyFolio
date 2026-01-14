@@ -1,0 +1,889 @@
+{
+  "datasetId": "keyfolio-quiz-dev-tools-v1",
+  "title": "KeyFolio Dev Tools, Architecture, and Workflow Quiz",
+  "version": "1.0.0",
+  "createdAt": "2026-01-13",
+  "tags": [
+    "npm",
+    "npx",
+    "powershell",
+    "dotnet",
+    "architecture",
+    "dev-tools",
+    "cli",
+    "security"
+  ],
+  "questions": [
+    {
+      "id": "KF-Q021",
+      "type": "single",
+      "difficulty": 2,
+      "prompt": "What is the primary responsibility of KeyFolio.Console in the overall solution?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "Provide a GUI for encryption and decryption"
+        },
+        {
+          "id": "B",
+          "text": "Act as a reusable cryptography library"
+        },
+        {
+          "id": "C",
+          "text": "Serve as a developer harness and reference implementation"
+        },
+        {
+          "id": "D",
+          "text": "Store encrypted secrets permanently"
+        }
+      ],
+      "answer": {
+        "choiceId": "C"
+      },
+      "explanation": "KeyFolio.Console is a thin CLI harness meant for development, testing, and documentation—not for core logic or end-user UI."
+    },
+    {
+      "id": "KF-Q022",
+      "type": "single",
+      "difficulty": 3,
+      "prompt": "Why should KeyFolio.Client reference KeyFolio.Core directly instead of invoking the console EXE?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "Because the console EXE cannot run on Windows"
+        },
+        {
+          "id": "B",
+          "text": "To avoid fragile process execution and text parsing"
+        },
+        {
+          "id": "C",
+          "text": "Because PowerShell scripts require admin rights"
+        },
+        {
+          "id": "D",
+          "text": "So that AES-GCM uses a stronger key"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "Referencing Core avoids process spawning, stdout parsing, path issues, and deployment complexity. The console is not a service layer."
+    },
+    {
+      "id": "KF-Q023",
+      "type": "single",
+      "difficulty": 3,
+      "prompt": "Why does KeyFolio.Console copy RunExamples scripts into its output folder on build?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "To bypass PowerShell execution policies"
+        },
+        {
+          "id": "B",
+          "text": "To allow resolving paths relative to AppContext.BaseDirectory"
+        },
+        {
+          "id": "C",
+          "text": "To reduce build size"
+        },
+        {
+          "id": "D",
+          "text": "To ensure the nonce is reused"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "Copying scripts into the output folder allows the console to resolve paths relative to itself, making it standalone and robust."
+    },
+    {
+      "id": "KF-Q024",
+      "type": "single",
+      "difficulty": 2,
+      "prompt": "Why did CS7022 and CS8321 warnings appear in the console project?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "Because XML documentation was missing"
+        },
+        {
+          "id": "B",
+          "text": "Because multiple projects referenced the same DLL"
+        },
+        {
+          "id": "C",
+          "text": "Because both top-level statements and a Main method were present"
+        },
+        {
+          "id": "D",
+          "text": "Because PowerShell scripts were included in the project"
+        }
+      ],
+      "answer": {
+        "choiceId": "C"
+      },
+      "explanation": "Top-level statements create an implicit entry point; defining a manual Main causes it to be ignored and flagged."
+    },
+    {
+      "id": "KF-Q025",
+      "type": "single",
+      "difficulty": 2,
+      "prompt": "Why is sessionStorage used for the quiz instead of localStorage?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "sessionStorage supports encryption automatically"
+        },
+        {
+          "id": "B",
+          "text": "sessionStorage persists across browser restarts"
+        },
+        {
+          "id": "C",
+          "text": "sessionStorage clears automatically when the tab closes"
+        },
+        {
+          "id": "D",
+          "text": "localStorage cannot store JSON"
+        }
+      ],
+      "answer": {
+        "choiceId": "C"
+      },
+      "explanation": "sessionStorage is ideal for quizzes and temporary workflows because it resets naturally when the session ends."
+    },
+    {
+      "id": "KF-Q026",
+      "type": "single",
+      "difficulty": 3,
+      "prompt": "Why can’t the quiz HTML file reliably fetch QuizDB.json when opened via file://?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "Because JSON files must be encrypted"
+        },
+        {
+          "id": "B",
+          "text": "Because browsers restrict fetch requests outside HTTP(S)"
+        },
+        {
+          "id": "C",
+          "text": "Because Bootstrap blocks file access"
+        },
+        {
+          "id": "D",
+          "text": "Because DataTables requires Node.js"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "Modern browsers restrict fetch() for local files; a simple HTTP server avoids CORS and security restrictions."
+    },
+    {
+      "id": "KF-Q027",
+      "type": "single",
+      "difficulty": 3,
+      "prompt": "What is the main difference between npm and npx?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "npm runs binaries, npx installs packages"
+        },
+        {
+          "id": "B",
+          "text": "npm manages packages, npx executes package binaries"
+        },
+        {
+          "id": "C",
+          "text": "npm is Windows-only, npx is cross-platform"
+        },
+        {
+          "id": "D",
+          "text": "npx replaces npm entirely"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "npm installs and manages dependencies; npx executes binaries, downloading them temporarily if needed."
+    },
+    {
+      "id": "KF-Q028",
+      "type": "single",
+      "difficulty": 4,
+      "prompt": "Why is npx well-suited for tools like http-server in this project?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "It installs tools permanently system-wide"
+        },
+        {
+          "id": "B",
+          "text": "It avoids global installs and version drift for one-off tools"
+        },
+        {
+          "id": "C",
+          "text": "It enables AES-GCM encryption"
+        },
+        {
+          "id": "D",
+          "text": "It bypasses browser security restrictions"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "npx allows temporary execution of dev tools without polluting the system or repository with permanent dependencies."
+    },
+    {
+      "id": "KF-Q029",
+      "type": "multi",
+      "difficulty": 4,
+      "prompt": "Which factors make launching a console EXE from a client application fragile? (Select all that apply)",
+      "choices": [
+        {
+          "id": "A",
+          "text": "Working directory ambiguity"
+        },
+        {
+          "id": "B",
+          "text": "Stdout/stderr parsing complexity"
+        },
+        {
+          "id": "C",
+          "text": "Process lifetime and error handling"
+        },
+        {
+          "id": "D",
+          "text": "AES-GCM nonce reuse"
+        }
+      ],
+      "answer": {
+        "choiceIds": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "explanation": "Spawning processes introduces path, parsing, and lifecycle complexity unrelated to core business logic."
+    },
+    {
+      "id": "KF-Q030",
+      "type": "single",
+      "difficulty": 3,
+      "prompt": "Why is glue code (path resolution, process launching) kept out of KeyFolio.Core?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "Because Core must run only on Windows"
+        },
+        {
+          "id": "B",
+          "text": "Because Core should remain reusable, deterministic, and side-effect free"
+        },
+        {
+          "id": "C",
+          "text": "Because Core cannot reference System.Diagnostics"
+        },
+        {
+          "id": "D",
+          "text": "Because glue code weakens encryption"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "Core should be pure, reusable logic. Process execution and filesystem assumptions belong at the application edge."
+    }
+  ],
+  "datasetId": "keyfolio-quiz-v1",
+  "title": "KeyFolio AES-GCM + PBKDF2 Architecture Quiz",
+  "version": "1.0.0",
+  "createdAt": "2026-01-13",
+  "tags": [
+    "csharp",
+    "dotnet",
+    "cryptography",
+    "aes-gcm",
+    "pbkdf2",
+    "winforms",
+    "console",
+    "architecture"
+  ],
+  "scoring": {
+    "defaultPoints": 1,
+    "allowPartialCredit": false
+  },
+  "questions": [
+    {
+      "id": "KF-Q001",
+      "type": "single",
+      "difficulty": 1,
+      "prompt": "Which project should contain the actual encryption/decryption implementation?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "KeyFolio.Core"
+        },
+        {
+          "id": "B",
+          "text": "KeyFolio.Console"
+        },
+        {
+          "id": "C",
+          "text": "KeyFolio.Client"
+        },
+        {
+          "id": "D",
+          "text": "All of them"
+        }
+      ],
+      "answer": {
+        "choiceId": "A"
+      },
+      "explanation": "Core is the reusable library; Console/Client are thin wrappers."
+    },
+    {
+      "id": "KF-Q002",
+      "type": "single",
+      "difficulty": 1,
+      "prompt": "What environment variable name is used for the shared passphrase?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "KEYFOLIO_KEY"
+        },
+        {
+          "id": "B",
+          "text": "KEYFOLIO_SECRET"
+        },
+        {
+          "id": "C",
+          "text": "KEYFOLIO_PASSPHRASE"
+        },
+        {
+          "id": "D",
+          "text": "KEYFOLIO_TOKEN"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "The shared secret is read from KEYFOLIO_SECRET, otherwise prompt at runtime."
+    },
+    {
+      "id": "KF-Q003",
+      "type": "single",
+      "difficulty": 2,
+      "prompt": "Why does KeyFolio cache the secret within a single app session?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "To avoid writing the secret to disk"
+        },
+        {
+          "id": "B",
+          "text": "To avoid prompting the user repeatedly during the same run"
+        },
+        {
+          "id": "C",
+          "text": "To ensure the salt never changes"
+        },
+        {
+          "id": "D",
+          "text": "To make encryption deterministic"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "Caching improves UX; it does not make encryption deterministic."
+    },
+    {
+      "id": "KF-Q004",
+      "type": "single",
+      "difficulty": 2,
+      "prompt": "Which algorithm combination was selected for portable encryption across machines?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "RSA-OAEP + SHA1"
+        },
+        {
+          "id": "B",
+          "text": "AES-CBC + HMAC"
+        },
+        {
+          "id": "C",
+          "text": "AES-256-GCM + shared secret"
+        },
+        {
+          "id": "D",
+          "text": "Windows DPAPI + machine key"
+        }
+      ],
+      "answer": {
+        "choiceId": "C"
+      },
+      "explanation": "AES-GCM with a shared passphrase-derived key works cross-machine."
+    },
+    {
+      "id": "KF-Q005",
+      "type": "single",
+      "difficulty": 2,
+      "prompt": "What is the purpose of PBKDF2 in this design?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "Compress ciphertext to Base64Url"
+        },
+        {
+          "id": "B",
+          "text": "Derive a fixed-length AES key from a passphrase"
+        },
+        {
+          "id": "C",
+          "text": "Generate the nonce/IV"
+        },
+        {
+          "id": "D",
+          "text": "Validate JSON formatting"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "PBKDF2-SHA256 derives a 32-byte key (AES-256) from the passphrase + salt."
+    },
+    {
+      "id": "KF-Q006",
+      "type": "multi",
+      "difficulty": 3,
+      "prompt": "AES-GCM encryption requires which of the following inputs/outputs? (Select all that apply)",
+      "choices": [
+        {
+          "id": "A",
+          "text": "Nonce/IV"
+        },
+        {
+          "id": "B",
+          "text": "Ciphertext"
+        },
+        {
+          "id": "C",
+          "text": "Authentication tag"
+        },
+        {
+          "id": "D",
+          "text": "Public/private keypair"
+        }
+      ],
+      "answer": {
+        "choiceIds": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "explanation": "AES-GCM uses a nonce and produces ciphertext + tag; it is symmetric, not asymmetric."
+    },
+    {
+      "id": "KF-Q007",
+      "type": "single",
+      "difficulty": 3,
+      "prompt": "Why do we store a random salt in the output envelope?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "So the same passphrase produces a different derived key per message"
+        },
+        {
+          "id": "B",
+          "text": "To make Base64Url decoding faster"
+        },
+        {
+          "id": "C",
+          "text": "So JSON can be detected reliably"
+        },
+        {
+          "id": "D",
+          "text": "To avoid having to store the nonce"
+        }
+      ],
+      "answer": {
+        "choiceId": "A"
+      },
+      "explanation": "Per-message salt strengthens passphrase-derived keys and is stored so decryption can reproduce the key."
+    },
+    {
+      "id": "KF-Q008",
+      "type": "single",
+      "difficulty": 3,
+      "prompt": "What is the recommended nonce size for AES-GCM in this project?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "8 bytes"
+        },
+        {
+          "id": "B",
+          "text": "12 bytes"
+        },
+        {
+          "id": "C",
+          "text": "16 bytes"
+        },
+        {
+          "id": "D",
+          "text": "32 bytes"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "12 bytes (96 bits) is the standard recommended size for AES-GCM nonces."
+    },
+    {
+      "id": "KF-Q009",
+      "type": "single",
+      "difficulty": 2,
+      "prompt": "What does the 'keyfolio:v1' prefix primarily enable?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "Higher encryption strength"
+        },
+        {
+          "id": "B",
+          "text": "Versioned parsing and future format upgrades"
+        },
+        {
+          "id": "C",
+          "text": "Automatic secret discovery"
+        },
+        {
+          "id": "D",
+          "text": "Unicode normalization"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "A versioned envelope lets you evolve formats while keeping backward compatibility."
+    },
+    {
+      "id": "KF-Q010",
+      "type": "single",
+      "difficulty": 2,
+      "prompt": "In KeyFolio, what should the Client reference to encrypt/decrypt data?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "KeyFolio.Console"
+        },
+        {
+          "id": "B",
+          "text": "KeyFolio.Core"
+        },
+        {
+          "id": "C",
+          "text": "A PowerShell script"
+        },
+        {
+          "id": "D",
+          "text": "The output DLL folder directly"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "Client should directly reference Core; Console is a separate harness."
+    },
+    {
+      "id": "KF-Q011",
+      "type": "single",
+      "difficulty": 4,
+      "prompt": "Why is it better for KeyFolio.Console to copy RunExamples scripts into its output folder?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "It makes AES encryption deterministic"
+        },
+        {
+          "id": "B",
+          "text": "It prevents PowerShell execution policy checks"
+        },
+        {
+          "id": "C",
+          "text": "It allows resolving paths relative to the EXE (standalone behavior)"
+        },
+        {
+          "id": "D",
+          "text": "It eliminates the need for Base64Url"
+        }
+      ],
+      "answer": {
+        "choiceId": "C"
+      },
+      "explanation": "Copying scripts to bin enables AppContext.BaseDirectory-based resolution without repo-relative assumptions."
+    },
+    {
+      "id": "KF-Q012",
+      "type": "single",
+      "difficulty": 3,
+      "prompt": "Those console warnings (CS7022/CS8321) happened because Program.cs had:",
+      "choices": [
+        {
+          "id": "A",
+          "text": "Only a Main method"
+        },
+        {
+          "id": "B",
+          "text": "Only global (top-level) statements"
+        },
+        {
+          "id": "C",
+          "text": "Both global code and a Main method"
+        },
+        {
+          "id": "D",
+          "text": "No entry point at all"
+        }
+      ],
+      "answer": {
+        "choiceId": "C"
+      },
+      "explanation": "Top-level statements create an implicit entry point; a manual Main then becomes unused."
+    },
+    {
+      "id": "KF-Q013",
+      "type": "multi",
+      "difficulty": 4,
+      "prompt": "Which outputs should be considered 'safe for CLI copy/paste' in KeyFolio? (Select all that apply)",
+      "choices": [
+        {
+          "id": "A",
+          "text": "Base64Url-encoded envelope parts"
+        },
+        {
+          "id": "B",
+          "text": "Raw binary ciphertext bytes printed to console"
+        },
+        {
+          "id": "C",
+          "text": "A single-line 'keyfolio:v1:...' envelope string"
+        },
+        {
+          "id": "D",
+          "text": "A Windows registry key containing the secret"
+        }
+      ],
+      "answer": {
+        "choiceIds": [
+          "A",
+          "C"
+        ]
+      },
+      "explanation": "Base64Url and a single-line envelope are copy/paste friendly; raw binary and registry secrets are not."
+    },
+    {
+      "id": "KF-Q014",
+      "type": "single",
+      "difficulty": 3,
+      "prompt": "What encoding is used to convert plaintext strings to bytes before encryption?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "ASCII"
+        },
+        {
+          "id": "B",
+          "text": "UTF-8"
+        },
+        {
+          "id": "C",
+          "text": "UTF-16LE"
+        },
+        {
+          "id": "D",
+          "text": "ISO-8859-1"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "KeyFolio treats plaintext as UTF-8 bytes so JSON and plain text round-trip correctly."
+    },
+    {
+      "id": "KF-Q015",
+      "type": "single",
+      "difficulty": 5,
+      "prompt": "Which statement best describes the security property AES-GCM provides beyond confidentiality?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "It guarantees the passphrase is strong"
+        },
+        {
+          "id": "B",
+          "text": "It authenticates ciphertext (tamper detection) via an authentication tag"
+        },
+        {
+          "id": "C",
+          "text": "It automatically rotates keys across machines"
+        },
+        {
+          "id": "D",
+          "text": "It ensures deterministic encryption for identical inputs"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "AES-GCM provides authenticated encryption; tampering causes decryption to fail."
+    },
+    {
+      "id": "KF-Q016",
+      "type": "single",
+      "difficulty": 4,
+      "prompt": "Why is using Windows DPAPI not aligned with the 'decryptable on another machine' requirement?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "DPAPI only works on Linux"
+        },
+        {
+          "id": "B",
+          "text": "DPAPI is symmetric, not asymmetric"
+        },
+        {
+          "id": "C",
+          "text": "DPAPI typically binds encryption to a user/machine context"
+        },
+        {
+          "id": "D",
+          "text": "DPAPI cannot encrypt strings"
+        }
+      ],
+      "answer": {
+        "choiceId": "C"
+      },
+      "explanation": "DPAPI is commonly machine/user bound, which breaks cross-machine portability."
+    },
+    {
+      "id": "KF-Q017",
+      "type": "single",
+      "difficulty": 3,
+      "prompt": "What is the main reason to keep KeyFolioCrypto and envelope parsing as internals (or behind a facade)?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "It makes encryption faster"
+        },
+        {
+          "id": "B",
+          "text": "It reduces API surface so consumers don’t couple to crypto internals"
+        },
+        {
+          "id": "C",
+          "text": "It forces users to run the console app"
+        },
+        {
+          "id": "D",
+          "text": "It prevents use of Base64"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "A stable facade lets you refactor internals without breaking consumers."
+    },
+    {
+      "id": "KF-Q018",
+      "type": "single",
+      "difficulty": 4,
+      "prompt": "Which csproj setting causes XML-doc warnings like CS1591 when public members lack XML comments?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "<Nullable>enable</Nullable>"
+        },
+        {
+          "id": "B",
+          "text": "<ImplicitUsings>enable</ImplicitUsings>"
+        },
+        {
+          "id": "C",
+          "text": "<GenerateDocumentationFile>true</GenerateDocumentationFile>"
+        },
+        {
+          "id": "D",
+          "text": "<UseWindowsForms>true</UseWindowsForms>"
+        }
+      ],
+      "answer": {
+        "choiceId": "C"
+      },
+      "explanation": "Generating documentation files triggers warnings for missing XML docs on public APIs."
+    },
+    {
+      "id": "KF-Q019",
+      "type": "single",
+      "difficulty": 4,
+      "prompt": "Why is 'keyfolio:v1' also used as AAD (Associated Authenticated Data)?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "To compress the ciphertext"
+        },
+        {
+          "id": "B",
+          "text": "To ensure the envelope version/context is tamper-evident"
+        },
+        {
+          "id": "C",
+          "text": "To change the salt length"
+        },
+        {
+          "id": "D",
+          "text": "To avoid storing the nonce"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "AAD binds metadata/context to the authentication tag so it can’t be modified without detection."
+    },
+    {
+      "id": "KF-Q020",
+      "type": "single",
+      "difficulty": 2,
+      "prompt": "In the console app, why should ciphertext output go to stdout and errors go to stderr?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "So encryption uses more CPU"
+        },
+        {
+          "id": "B",
+          "text": "So output can be piped/redirected cleanly while still showing errors"
+        },
+        {
+          "id": "C",
+          "text": "So the passphrase can be logged safely"
+        },
+        {
+          "id": "D",
+          "text": "So it works only on Windows"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "stdout is for data pipelines; stderr is for diagnostics without corrupting piped output."
+    }
+  ]
+}
