@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "KeyFolio.Client/1.0.0": {
+        "dependencies": {
+          "KeyFolio.Core": "1.0.0"
+        },
+        "runtime": {
+          "KeyFolio.Client.dll": {}
+        }
+      },
+      "KeyFolio.Core/1.0.0": {
+        "runtime": {
+          "KeyFolio.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "KeyFolio.Client/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "KeyFolio.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
