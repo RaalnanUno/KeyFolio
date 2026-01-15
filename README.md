@@ -1,7 +1,5 @@
 # KeyFolio
 
-I want to make a two-part key generation app (C#).
-
 ## KeyFolio.Core
 
 A library project that accepts a string, and returns it in an encrypted format. The level of encryption doesn't need to be super secure, but it needs to be decipherable even when KeyFolio.Core receives the same string on a different computer. String formatting should be considered, but we won't normalize by default. For example, one ley might be JSON, and another string might be plain text.
@@ -45,8 +43,3 @@ A console application that connects to `KeyFolio.Core` to implement encryption a
 ## KeyFolio.Client
 
 A form application that connects to `KeyFolio.Core` to implement encryption and decryption. This will serve as a basic implementation example for users that need to make use of KeyFolio without going through the command line.
-
----
-
-Let's discuss options before we get started coding.
-
