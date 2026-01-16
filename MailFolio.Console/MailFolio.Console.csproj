@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!-- Optional but nice -->
+    <LangVersion>latest</LangVersion>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- SMTP + MIME -->
+    <PackageReference Include="MailKit" Version="4.10.0" />
+    <!-- SQLite -->
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Reference your KeyFolio.Core project -->
+    <ProjectReference Include="..\KeyFolio.Core\KeyFolio.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Make sure schema.sql is copied next to the exe so Program.cs can read it -->
+    <None Include="schema.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -10,14 +10,14 @@
         "projectUniqueName": "C:\\source\\repos\\RaalnanUno\\KeyFolio\\KeyFolio.Core\\KeyFolio.Core.csproj",
         "projectName": "KeyFolio.Core",
         "projectPath": "C:\\source\\repos\\RaalnanUno\\KeyFolio\\KeyFolio.Core\\KeyFolio.Core.csproj",
-        "packagesPath": "C:\\Users\\raaln\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\Raalnan5\\.nuget\\packages\\",
         "outputPath": "C:\\source\\repos\\RaalnanUno\\KeyFolio\\KeyFolio.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\raaln\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Raalnan5\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
