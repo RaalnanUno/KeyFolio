@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KeyFolio.Core — Troubleshooting</title>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <div class="wrap">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="title">KeyFolio.Core <span class="badge">Guide</span></div>
+        <div class="subtitle">Common failure modes when Core is consumed by apps.</div>
+      </div>
+      <nav id="nav" class="nav"></nav>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        <h1>Troubleshooting</h1>
+        <p>When implementations fail: what to check, what it usually means, and how to diagnose.</p>
+      </div>
+
+      <div class="content">
+        <h2>Most common integration failures</h2>
+
+        <div class="card">
+          <h3>Missing passphrase (secret provider returns empty)</h3>
+          <ul>
+            <li>Implementation: env var not visible to current process</li>
+            <li>Fix: verify Process/User/Machine scopes; reopen terminal after setting vars</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Envelope string is invalid</h3>
+          <ul>
+            <li>Implementation: stored encrypted string isn’t a KeyFolio envelope or is truncated</li>
+            <li>Fix: regenerate envelope string using the same passphrase source</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Wrong passphrase</h3>
+          <ul>
+            <li>Implementation: passphrase does not match what was used to encrypt</li>
+            <li>Fix: confirm exact value and no hidden whitespace</li>
+          </ul>
+        </div>
+
+        <div class="callout ok">
+          <b>Pro tip:</b> For implementation projects (like MailFolio.Console),
+          add small diagnostic switches (like your <code>--dumpKeyFolio</code> and <code>--dumpKeyFolioCrypto</code>)
+          to quickly align API expectations without guessing.
+        </div>
+
+        <h2>Cross-project note</h2>
+        <p>
+          These docs intentionally focus on the library. If you’re debugging SMTP send failures, check the MailFolio docs.
+          We’ll add KeyFolio.Console docs later as another implementation-level guide.
+        </p>
+      </div>
+
+      <div class="footer">
+        Last opened: <span id="buildStamp"></span>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>

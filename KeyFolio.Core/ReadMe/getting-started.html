@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KeyFolio.Core — Getting Started</title>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <div class="wrap">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="title">KeyFolio.Core <span class="badge">Guide</span></div>
+        <div class="subtitle">Build and basic consumption patterns.</div>
+      </div>
+      <nav id="nav" class="nav"></nav>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        <h1>Getting Started</h1>
+        <p>Build the library and consume it from an application project.</p>
+      </div>
+
+      <div class="content">
+        <h2>Build</h2>
+        <pre><code>dotnet clean
+dotnet restore
+dotnet build -c Release</code></pre>
+
+        <h2>Consumption pattern</h2>
+        <div class="card">
+          <p>
+            KeyFolio.Core is meant to be referenced from apps (MailFolio.Console now; KeyFolio.Console later).
+            The app is responsible for supplying the secret (passphrase) via <code>ISecretProvider</code>.
+          </p>
+        </div>
+
+        <h2>Minimal example (conceptual)</h2>
+        <pre><code>// Pseudocode: exact names may vary by project
+var options = new KeyFolioOptions();
+var crypto  = new KeyFolioCrypto(options);
+
+// Secret provider supplies passphrase (env, prompt, DPAPI, etc.)
+ISecretProvider provider = new EnvSecretProvider("MAILFOLIO_PASSPHRASE");
+
+var plain = crypto.Decrypt(envelopeText, provider);</code></pre>
+
+        <div class="callout">
+          <b>Important:</b> Your apps should treat the passphrase as a secret:
+          don’t write it to disk, don’t log it, and keep it in memory only as long as needed.
+        </div>
+      </div>
+
+      <div class="footer">
+        Last opened: <span id="buildStamp"></span>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>

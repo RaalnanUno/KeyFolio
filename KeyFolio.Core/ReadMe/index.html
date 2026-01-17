@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KeyFolio.Core — Implementation Guide</title>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <div class="wrap">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="title">KeyFolio.Core <span class="badge">Guide</span></div>
+        <div class="subtitle">
+          Crypto core library used by MailFolio.Console and future KeyFolio.Console.<br/>
+          Static docs (portable HTML).
+        </div>
+      </div>
+      <nav id="nav" class="nav"></nav>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        <h1>KeyFolio.Core Implementation Guide</h1>
+        <p>Library-level concepts, integration patterns, and troubleshooting for KeyFolio-based apps.</p>
+      </div>
+
+      <div class="content">
+        <div class="card">
+          <h2>What KeyFolio.Core is</h2>
+          <ul>
+            <li>A reusable crypto library for protecting and unprotecting secrets.</li>
+            <li>Designed to be consumed by applications (console tools, services, desktop UIs).</li>
+            <li>Separates <b>secret retrieval</b> (via an <code>ISecretProvider</code>) from <b>encryption logic</b> (KeyFolioCrypto).</li>
+          </ul>
+        </div>
+
+        <div class="callout ok">
+          <b>Relationship:</b> <code>MailFolio.Console</code> is an implementation of <code>KeyFolio.Core</code> —
+          it uses KeyFolio to decrypt SMTP credentials at runtime and then sends mail via SMTP.
+          A future <code>KeyFolio.Console</code> will similarly be an implementation/UI wrapper around this same core library.
+        </div>
+
+        <h2>How to use this guide</h2>
+        <ol>
+          <li><a href="getting-started.html">Getting Started</a> — reference the library and use it in apps.</li>
+          <li><a href="concepts.html">Concepts</a> — secret providers, envelopes, and flow.</li>
+          <li><a href="integration.html">Integration</a> — how MailFolio uses Core (and how KeyFolio.Console will).</li>
+          <li><a href="troubleshooting.html">Troubleshooting</a> — common failures and how to diagnose.</li>
+        </ol>
+
+        <div class="card">
+          <h2>Quick mental model</h2>
+          <pre><code>App (MailFolio.Console)
+  ├─ Reads env var / config path
+  ├─ Loads an encrypted "envelope string"
+  ├─ Provides passphrase via ISecretProvider
+  └─ KeyFolioCrypto.Decrypt(envelopeText, secretProvider) → plaintext</code></pre>
+        </div>
+      </div>
+
+      <div class="footer">
+        Last opened: <span id="buildStamp"></span>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>

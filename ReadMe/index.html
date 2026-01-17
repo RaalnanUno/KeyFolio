@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KeyFolio — Documentation Hub</title>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <div class="wrap">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="title">KeyFolio <span class="badge">Docs Hub</span></div>
+        <div class="subtitle">
+          Root documentation index for the solution.<br/>
+          Start here, then jump into each project’s guide.
+        </div>
+      </div>
+
+      <nav id="nav" class="nav"></nav>
+
+      <div class="brand" style="border-top:1px solid var(--border); border-bottom:none;">
+        <div class="subtitle">
+          <b>Tip:</b> Start Live Server from the KeyFolio repo root (or open this file),
+          then you can navigate between projects using stable relative paths.
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        <h1>Documentation Hub</h1>
+        <p>KeyFolio.Core is the library. MailFolio.Console is an implementation. KeyFolio.Console will be another implementation.</p>
+      </div>
+
+      <div class="content">
+        <div class="grid">
+          <div class="card">
+            <h2>KeyFolio.Core</h2>
+            <p>The crypto library: secret-provider contract + envelope decrypt flow. This is the “engine” used by implementations.</p>
+            <div class="btnrow">
+              <a class="btn" href="../KeyFolio.Core/ReadMe/index.html">Open KeyFolio.Core Guide</a>
+            </div>
+            <div class="pills">
+              <span class="pill">Library</span>
+              <span class="pill">ISecretProvider</span>
+              <span class="pill">Decrypt(envelope, provider)</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>MailFolio.Console</h2>
+            <p>SMTP sender implementation using KeyFolio.Core to decrypt SMTP credentials at runtime. Includes operational runbook + troubleshooting.</p>
+            <div class="btnrow">
+              <a class="btn" href="../MailFolio.Console/ReadMe/index.html">Open MailFolio.Console Guide</a>
+            </div>
+            <div class="pills">
+              <span class="pill">Implementation</span>
+              <span class="pill">SMTP</span>
+              <span class="pill">SQLite failure ledger</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>KeyFolio.Console (coming soon)</h2>
+            <p>CLI implementation for generating, inspecting, and validating KeyFolio envelope strings. We’ll add docs when the project pages exist.</p>
+            <div class="btnrow">
+              <a class="btn" href="#" onclick="return false;" style="opacity:0.65; cursor:not-allowed;">Docs not created yet</a>
+            </div>
+            <div class="pills">
+              <span class="pill">Implementation</span>
+              <span class="pill">CLI</span>
+              <span class="pill">Envelope generation</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>How it fits together</h2>
+            <p>
+              Think “engine + apps”:
+              <br/><br/>
+              <b>KeyFolio.Core</b> provides crypto and contracts.
+              <br/>
+              <b>MailFolio.Console</b> is a concrete app that uses Core.
+              <br/>
+              <b>KeyFolio.Console</b> will be another concrete app that uses Core.
+            </p>
+            <pre style="margin:0; margin-top:10px;"><code>KeyFolio.Core  (library)
+  ↑ referenced by
+MailFolio.Console  (implementation)
+KeyFolio.Console   (implementation - planned)</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        Last opened: <span id="buildStamp"></span>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>

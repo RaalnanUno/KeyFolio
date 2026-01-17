@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MailFolio — Runbook</title>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <div class="wrap">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="title">MailFolio.Console <span class="badge">Guide</span></div>
+        <div class="subtitle">Common run patterns.</div>
+      </div>
+      <nav id="nav" class="nav"></nav>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        <h1>Runbook</h1>
+        <p>Dry run, HTML, attachments, and running the built exe.</p>
+      </div>
+
+      <div class="content">
+        <h2>Dry run (validate config without sending)</h2>
+        <pre><code>dotnet run -c Release -- `
+  --to "someone@agency.mil" `
+  --subject "MailFolio Dry Run" `
+  --body "This will not be sent." `
+  --dryRun</code></pre>
+
+        <h2>HTML email from file</h2>
+        <pre><code>dotnet run -c Release -- `
+  --to "someone@agency.mil" `
+  --subject "HTML Test" `
+  --bodyFile ".\email.html"</code></pre>
+
+        <h2>HTML + attachment</h2>
+        <pre><code>dotnet run -c Release -- `
+  --to "someone@agency.mil" `
+  --subject "Attachment Test" `
+  --bodyFile ".\email.html" `
+  --attach ".\docs\report.pdf"</code></pre>
+
+        <h2>Run compiled EXE directly</h2>
+        <pre><code>cd .\bin\Release\net8.0
+
+.\MailFolio.Console.exe `
+  --to "someone@agency.mil" `
+  --subject "Direct EXE Test" `
+  --body "Hello from the compiled MailFolio console."</code></pre>
+
+        <div class="callout ok">
+          <b>Tip:</b> When running as a scheduled job, prefer the compiled EXE and set env vars at the machine level.
+        </div>
+      </div>
+
+      <div class="footer">
+        Last opened: <span id="buildStamp"></span>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>

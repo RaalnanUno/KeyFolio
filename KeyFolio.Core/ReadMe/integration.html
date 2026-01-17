@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KeyFolio.Core — Integration</title>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <div class="wrap">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="title">KeyFolio.Core <span class="badge">Guide</span></div>
+        <div class="subtitle">How apps implement Core (MailFolio now; KeyFolio.Console later).</div>
+      </div>
+      <nav id="nav" class="nav"></nav>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        <h1>Integration</h1>
+        <p>KeyFolio.Core is implemented by apps. This page explains the relationship and patterns.</p>
+      </div>
+
+      <div class="content">
+        <h2>Implementation vs Library</h2>
+        <table class="table">
+          <thead>
+            <tr><th>Component</th><th>Role</th><th>Examples</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>KeyFolio.Core</code></td>
+              <td>Crypto primitives and contracts (library)</td>
+              <td>KeyFolioCrypto, KeyFolioOptions, ISecretProvider</td>
+            </tr>
+            <tr>
+              <td><code>MailFolio.Console</code></td>
+              <td>Implementation of Core for sending mail</td>
+              <td>Decrypt SMTP creds → send email → log errors to SQLite on failure</td>
+            </tr>
+            <tr>
+              <td><code>KeyFolio.Console</code> (future)</td>
+              <td>Implementation of Core for generating/inspecting keys</td>
+              <td>CLI for creating envelope strings, showing metadata, etc.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>How MailFolio uses KeyFolio.Core</h2>
+        <div class="card">
+          <ol>
+            <li>Key file JSON stores <code>UsernameEnc</code> and <code>PasswordEnc</code>.</li>
+            <li>Env var stores passphrase (<code>MAILFOLIO_PASSPHRASE</code>).</li>
+            <li><code>EnvSecretProvider</code> implements <code>ISecretProvider</code>.</li>
+            <li>MailFolio calls <code>KeyFolioCrypto.Decrypt(envelopeText, secretProvider)</code>.</li>
+            <li>MailFolio uses the plaintext briefly and never persists it.</li>
+          </ol>
+        </div>
+
+        <div class="callout">
+          <b>Doc navigation note:</b> These KeyFolio.Core docs are standalone.
+          When you run Live Server from a common root (repo root), you can link to MailFolio docs by relative path.
+          We'll add a root-level hub page later for easy switching.
+        </div>
+
+        <h2>Pattern to reuse in future implementations</h2>
+        <pre><code>Implementation pattern:
+  - Load encrypted envelope strings from some storage
+  - Provide secret via ISecretProvider
+  - Decrypt using KeyFolioCrypto
+  - Use plaintext briefly (in memory)
+  - Avoid logging or persisting plaintext</code></pre>
+      </div>
+
+      <div class="footer">
+        Last opened: <span id="buildStamp"></span>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>
