@@ -1,0 +1,42 @@
+<div data-title="KeyFolio.Client Docs • Troubleshooting"></div>
+
+<h1>Troubleshooting</h1>
+<p class="lede">
+  Common issues you may hit while encrypting/decrypting envelope strings.
+</p>
+
+<div class="grid grid--cards">
+  <section class="card card--span2">
+    <h2>I can’t decrypt an envelope</h2>
+    <p>Check these in order:</p>
+    <ol>
+      <li><b>Passphrase mismatch</b> (most common)</li>
+      <li><b>Different options/version</b> between generator and validator</li>
+      <li><b>Modified/truncated envelope</b> (whitespace, line breaks, field limits)</li>
+    </ol>
+    <div class="callout">
+      <b>Tip:</b> Some systems silently truncate long strings. Re-copy and verify the full value exists.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>I lost my passphrase</h2>
+    <p><b>There is no recovery.</b> Envelopes cannot be decrypted without the original passphrase.</p>
+  </section>
+
+  <section class="card">
+    <h2>It keeps prompting me</h2>
+    <ul>
+      <li>Env var not set: <code>KEYFOLIO_SECRET</code></li>
+      <li>New app session: expected behavior</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Copy Output didn’t work</h2>
+    <ul>
+      <li>Clipboard restrictions (remote sessions / locked-down environments)</li>
+      <li>Output is empty</li>
+    </ul>
+  </section>
+</div>

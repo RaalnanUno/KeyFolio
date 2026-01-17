@@ -1,20 +1,24 @@
+// Readme/assets/nav.js
 window.KEYFOLIO_CLIENT_NAV = [
-  { href: "index.html", title: "Home", desc: "What KeyFolio.Client is" },
-  { href: "getting-started.html", title: "Getting Started", desc: "Running the client" },
-  { href: "concepts.html", title: "Concepts", desc: "User-facing crypto concepts" },
-  { href: "workflows.html", title: "Workflows", desc: "Typical user flows" },
-  { href: "security-model.html", title: "Security Model", desc: "How secrets are protected" },
-  { href: "troubleshooting.html", title: "Troubleshooting", desc: "When things go wrong" }
+  { route: "home",            title: "Home",            desc: "What KeyFolio.Client is" },
+  { route: "getting-started", title: "Getting Started", desc: "Running the client" },
+  { route: "concepts",        title: "Concepts",        desc: "User-facing crypto concepts" },
+  { route: "workflows",       title: "Workflows",       desc: "Typical user flows" },
+  { route: "security-model",  title: "Security Model",  desc: "How secrets are protected" },
+  { route: "troubleshooting", title: "Troubleshooting", desc: "When things go wrong" }
 ];
 
-window.renderNav = function (active) {
+window.renderNav = function renderNav(activeRoute) {
   const nav = document.getElementById("nav");
   if (!nav) return;
 
-  nav.innerHTML = KEYFOLIO_CLIENT_NAV.map(i => `
-    <a href="${i.href}" class="${i.href === active ? "active" : ""}">
-      ${i.title}
-      <small>${i.desc}</small>
-    </a>
-  `).join("");
+  nav.innerHTML = window.KEYFOLIO_CLIENT_NAV.map(i => {
+    const isActive = i.route === activeRoute;
+    return `
+      <a alt="${i.desc}" title="${i.desc}" href="#/${i.route}" class="${isActive ? "active" : ""}">
+        ${i.title}
+        
+      </a>
+    `;
+  }).join("");
 };

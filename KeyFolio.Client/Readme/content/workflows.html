@@ -1,0 +1,103 @@
+<div data-title="KeyFolio.Client Docs • Workflows"></div>
+
+<h1>Workflows</h1>
+<p class="lede">
+  Two main workflows: create an envelope (Encrypt) and validate an envelope (Decrypt).
+</p>
+
+<div class="grid grid--cards">
+  <section class="card card--span2">
+    <h2>Sequence diagram</h2>
+    <p class="muted">Click to expand.</p>
+
+    <pre class="mermaid" data-lightbox="true">
+sequenceDiagram
+  autonumber
+  actor User
+  participant UI as KeyFolio.Client (Form1)
+  participant SP as EnvOrPromptSecretProvider
+  participant KF as KeyFolio.Core (KeyFolio)
+  participant CL as Clipboard
+
+  rect rgb(245,245,245)
+    note over User,UI: Encrypt workflow (Create envelope)
+    User->>UI: Enter plaintext in Input
+    User->>UI: Click Encrypt
+    UI->>SP: GetSecret()
+    alt KEYFOLIO_SECRET exists
+      SP-->>UI: secret (env)
+    else Missing env var
+      SP-->>User: Prompt for passphrase (SecretPromptForm)
+      User-->>SP: Enter passphrase
+      SP-->>UI: secret (cached in-memory)
+    end
+    UI->>KF: Encrypt(plaintext, secretProvider)
+    KF-->>UI: envelope string
+    UI-->>User: Show envelope in Output
+    User->>UI: Click Copy Output (optional)
+    UI->>CL: SetText(envelope)
+    UI-->>User: Status: "Output copied"
+  end
+
+  rect rgb(245,245,245)
+    note over User,UI: Decrypt workflow (Validate envelope)
+    User->>UI: Paste envelope in Input
+    User->>UI: Click Decrypt
+    UI->>SP: GetSecret()
+    alt Secret cached/env available
+      SP-->>UI: secret
+    else Prompt required
+      SP-->>User: Prompt for passphrase
+      User-->>SP: Enter passphrase
+      SP-->>UI: secret (cached)
+    end
+    UI->>KF: Decrypt(envelope, secretProvider)
+    alt Passphrase matches & envelope valid
+      KF-->>UI: plaintext
+      UI-->>User: Show plaintext in Output
+      User->>UI: Click Copy Output (optional)
+      UI->>CL: SetText(plaintext)
+    else Failure
+      KF-->>UI: throws exception
+      UI-->>User: Status: "Decrypt failed"
+    end
+  end
+    </pre>
+  </section>
+
+  <section class="card">
+    <h2>Create an envelope</h2>
+    <span class="badge">Encrypt</span>
+    <ol>
+      <li>Enter plaintext in <b>Input</b>.</li>
+      <li>Click <b>Encrypt</b>.</li>
+      <li>Provide passphrase (env var or prompt).</li>
+      <li>Review envelope in <b>Output</b>.</li>
+      <li>Click <b>Copy Output</b> to copy envelope.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>Validate an envelope</h2>
+    <span class="badge">Decrypt</span>
+    <ol>
+      <li>Paste envelope in <b>Input</b>.</li>
+      <li>Click <b>Decrypt</b>.</li>
+      <li>Provide passphrase.</li>
+      <li>Confirm plaintext in <b>Output</b>.</li>
+    </ol>
+    <div class="callout">
+      <b>Tip:</b> Avoid copying plaintext unless you explicitly need it.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Fast checks</h2>
+    <ul>
+      <li><b>Wrong passphrase</b> is the most common issue.</li>
+      <li><b>Truncated envelope</b>: re-copy the full string.</li>
+      <li><b>New session</b>: you may be prompted again (expected).</li>
+    </ul>
+    <p class="muted">More: <a href="#/troubleshooting">Troubleshooting</a></p>
+  </section>
+</div>

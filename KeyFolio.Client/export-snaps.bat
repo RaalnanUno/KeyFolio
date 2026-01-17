@@ -33,7 +33,14 @@ for /r "ReadMe" %%F in (*.html) do (
   copy /y "%%~fF" "%%~dpnF.md" >nul
   echo Copied: %%~fF → %%~dpnF.md
 )
-
+for /r "ReadMe" %%F in (*.css) do (
+  copy /y "%%~fF" "%%~dpnF.md" >nul
+  echo Copied: %%~fF → %%~dpnF.md
+)
+for /r "ReadMe" %%F in (*.js) do (
+  copy /y "%%~fF" "%%~dpnF.md" >nul
+  echo Copied: %%~fF → %%~dpnF.md
+)
 
 REM =======================================================
 REM 3) Build prompt.md with path headers and relative links
@@ -90,6 +97,7 @@ for /r "ReadMe" %%F in (*.md) do (
     echo Indexed: !orig!
   )
 )
+
 
 echo.
 echo ========================================

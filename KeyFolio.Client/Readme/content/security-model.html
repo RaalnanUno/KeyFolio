@@ -1,0 +1,66 @@
+<div data-title="KeyFolio.Client Docs • Security Model"></div>
+
+<h1>Security Model</h1>
+<p class="lede">
+  KeyFolio.Client is designed to help humans work with encrypted secrets safely.
+</p>
+
+<div class="grid grid--cards">
+  <section class="card">
+    <h2>Core guarantees</h2>
+    <ul>
+      <li><b>No plaintext secrets are written to disk</b></li>
+      <li><b>No passphrases are persisted</b></li>
+      <li><b>No clipboard access without explicit user action</b></li>
+      <li><b>No background logging of sensitive data</b></li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Trust boundary</h2>
+    <p>
+      <b>KeyFolio.Client assumes the local machine is trusted during execution.</b>
+      Secrets should still be handled with care.
+    </p>
+    <div class="callout">
+      <b>Reminder:</b> If the machine is compromised, no client app can fully protect secrets typed into it.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Passphrases</h2>
+    <ol>
+      <li>Read <code>KEYFOLIO_SECRET</code> from environment</li>
+      <li>If missing, prompt user</li>
+      <li>Cache in memory for this session only</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>Clipboard behavior</h2>
+    <p>
+      Clipboard operations happen only when the user clicks <b>Copy Output</b>.
+      Clipboard contents may be visible to other apps.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Envelope strings</h2>
+    <p>
+      Safe to store/transport, but useless without the correct passphrase.
+    </p>
+    <h3>Common failure modes</h3>
+    <ul>
+      <li>Passphrase mismatch</li>
+      <li>Different options/version</li>
+      <li>Modified or truncated text</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>No recovery</h2>
+    <p>
+      Envelopes cannot be decrypted without the original passphrase.
+    </p>
+  </section>
+</div>

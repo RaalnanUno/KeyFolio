@@ -1,5 +1,6 @@
-Let's build out the Getting Started Page.
-Be sure to include a placeholder for the screenshot
+I want to rewrite the html pages in ReadMe.
+I like the layout that we're using in index.html, and I want to use it on all of the html pages.
+If possible, it would be good to have content sections that get swapped out, so we have one main page, and the navigation just swaps the content to use a different content file.
 
 ## KeyFolio.Client.md
 
@@ -45,3 +46,11 @@ Be sure to include a placeholder for the screenshot
 
 ![[Readme/workflows.md]]
 
+## Readme/assets/nav.cs
+.
+![[Readme/assets/nav.md]]
+.
+## Readme/assets/site.cs
+.
+![[Readme/assets/site.md]]
+.

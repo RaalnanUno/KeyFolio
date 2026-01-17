@@ -1,0 +1,95 @@
+<div data-title="KeyFolio.Client Docs • Getting Started"></div>
+
+<h1>Getting Started</h1>
+<p class="lede">
+  <b>KeyFolio.Client</b> is intended for interactive use by a human. It wraps
+  <b>KeyFolio.Core</b> with guardrails and visual feedback.
+</p>
+
+<div class="grid grid--cards">
+  <section class="card">
+    <h2>Prereqs</h2>
+    <ul>
+      <li>.NET SDK: <b>net8.0-windows</b></li>
+      <li>Windows desktop environment (WinExe)</li>
+      <li>Access to the shared passphrase (via <code>KEYFOLIO_SECRET</code> or prompt)</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Build & Run</h2>
+    <div class="callout">
+      <b>Note:</b> Unlike MailFolio or Console tools, the Client is designed to slow users down
+      and prevent accidental disclosure.
+    </div>
+    <pre><code>dotnet clean
+dotnet restore
+dotnet build -c Release</code></pre>
+    <p class="muted">
+      Run in Debug from Visual Studio, or run the built exe from the output folder after a successful build.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Provide the passphrase</h2>
+
+    <h3>Option A: Environment Variable</h3>
+    <pre><code># PowerShell
+$env:KEYFOLIO_SECRET = "CorrectHorseBatteryStaple"</code></pre>
+
+    <h3>Option B: Prompt</h3>
+    <p class="muted">
+      If <code>KEYFOLIO_SECRET</code> is missing, the app prompts and caches the passphrase in memory for this session only.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>First encryption</h2>
+    <ol>
+      <li>Paste plaintext into <b>Input</b> (JSON or plain text is fine).</li>
+      <li>Click <b>Encrypt</b>.</li>
+      <li>Copy the resulting <b>envelope string</b> from <b>Output</b>.</li>
+    </ol>
+
+<div class="screenshot">
+  <button
+    type="button"
+    class="thumb"
+    data-lightbox-image
+    data-src="assets/img/placeholder-getting-started.png"
+    data-alt="KeyFolio.Client screenshot placeholder"
+    aria-label="Open screenshot"
+    title="Click to expand"
+  >
+    <img
+      src="assets/img/placeholder-getting-started.png"
+      alt="KeyFolio.Client screenshot placeholder (replace this image)"
+      loading="lazy"
+    />
+  </button>
+
+  <p class="muted">
+    Screenshot placeholder: replace <code>assets/img/placeholder-getting-started.png</code> with a real capture.
+  </p>
+</div>
+
+
+  <section class="card">
+    <h2>First decryption</h2>
+    <ol>
+      <li>Paste an envelope string into <b>Input</b>.</li>
+      <li>Click <b>Decrypt</b>.</li>
+      <li>Plaintext appears in <b>Output</b> if the passphrase matches.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>What you’re looking at in the code</h2>
+    <ul>
+      <li><code>Program.cs</code> boots WinForms and opens <code>Form1</code>.</li>
+      <li><code>Form1</code> wires Encrypt/Decrypt/Copy Output to <code>KeyFolio.Core</code>.</li>
+      <li><code>EnvOrPromptSecretProvider</code> pulls <code>KEYFOLIO_SECRET</code> or prompts.</li>
+      <li><code>SecretPromptForm</code> is the modal prompt with “Show passphrase”.</li>
+    </ul>
+  </section>
+</div>
