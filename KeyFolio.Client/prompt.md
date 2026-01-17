@@ -1,118 +1,47 @@
-## Form1.cs
+Let's build out the Getting Started Page.
+Be sure to include a placeholder for the screenshot
 
-```cs
-using KeyFolio.Client.Secrets;
-using KeyFolio.Core;
+## KeyFolio.Client.md
 
-namespace KeyFolio.Client;
+![[KeyFolio.Client.md]]
 
-public partial class Form1 : Form
-{
-    private readonly KeyFolio.Core.KeyFolio _keyfolio = new();
-    private readonly EnvOrPromptSecretProvider _secretProvider = new("KEYFOLIO_SECRET");
+## Form1.md
 
-    public Form1()
-    {
-        InitializeComponent();
+![[Form1.md]]
 
-        btnEncrypt.Click += (_, __) => Encrypt();
-        btnDecrypt.Click += (_, __) => Decrypt();
-        btnCopyOutput.Click += (_, __) => CopyOutput();
+## Program.md
 
-        txtInput.Text = "Hello from KeyFolio (JSON/plain text both fine).";
-        lblStatus.Text = "Ready.";
-    }
+![[Program.md]]
 
-    private void Encrypt()
-    {
-        try
-        {
-            var input = txtInput.Text ?? string.Empty;
-            var encrypted = _keyfolio.Encrypt(input, _secretProvider);
-            txtOutput.Text = encrypted;
-            lblStatus.Text = "Encrypted successfully.";
-        }
-        catch (Exception ex)
-        {
-            lblStatus.Text = $"Encrypt failed: {ex.Message}";
-            MessageBox.Show(this, ex.ToString(), "Encrypt Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-    }
+## Secrets/EnvOrPromptSecretProvider.cs
 
-    private void Decrypt()
-    {
-        try
-        {
-            var input = txtInput.Text ?? string.Empty;
-            var decrypted = _keyfolio.Decrypt(input, _secretProvider);
-            txtOutput.Text = decrypted;
-            lblStatus.Text = "Decrypted successfully.";
-        }
-        catch (Exception ex)
-        {
-            lblStatus.Text = $"Decrypt failed: {ex.Message}";
-            MessageBox.Show(this, ex.ToString(), "Decrypt Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-    }
+![[Secrets/EnvOrPromptSecretProvider.md]]
 
-    private void CopyOutput()
-    {
-        try
-        {
-            Clipboard.SetText(txtOutput.Text ?? string.Empty);
-            lblStatus.Text = "Output copied to clipboard.";
-        }
-        catch (Exception ex)
-        {
-            lblStatus.Text = $"Copy failed: {ex.Message}";
-        }
-    }
-}
+## Secrets/SecretPromptForm.cs
 
-```
+![[Secrets/SecretPromptForm.md]]
 
-## Secrets\EnvOrPromptSecretProvider.cs
+## Readme/concepts.cs
 
-```cs
-using KeyFolio.Core.Crypto;
+![[Readme/concepts.md]]
 
-namespace KeyFolio.Client.Secrets;
+## Readme/getting-started.cs
 
-/// <summary>
-/// Gets KEYFOLIO_SECRET from environment. If missing, prompts the user.
-/// Caches the secret for the current app session.
-/// </summary>
-public sealed class EnvOrPromptSecretProvider : ISecretProvider
-{
-    private readonly string _envVarName;
-    private string? _cachedSecret;
+![[Readme/getting-started.md]]
 
-    public EnvOrPromptSecretProvider(string envVarName = "KEYFOLIO_SECRET")
-    {
-        _envVarName = envVarName;
-    }
+## Readme/index.cs
 
-    public string GetSecret()
-    {
-        if (!string.IsNullOrWhiteSpace(_cachedSecret))
-            return _cachedSecret!;
+![[Readme/index.md]]
 
-        var env = Environment.GetEnvironmentVariable(_envVarName);
-        if (!string.IsNullOrWhiteSpace(env))
-        {
-            _cachedSecret = env;
-            return env;
-        }
+## Readme/security-model.cs
 
-        using var dlg = new SecretPromptForm(_envVarName);
-        var result = dlg.ShowDialog();
+![[Readme/security-model.md]]
 
-        if (result != DialogResult.OK || string.IsNullOrWhiteSpace(dlg.Secret))
-            throw new InvalidOperationException($"No secret provided. Set {_envVarName} or enter it when prompted.");
+## Readme/troubleshooting.cs
 
-        _cachedSecret = dlg.Secret!;
-        return _cachedSecret!;
-    }
-}
+![[Readme/troubleshooting.md]]
 
-```
+## Readme/workflows.cs
+
+![[Readme/workflows.md]]
+
