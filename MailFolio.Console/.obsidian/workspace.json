@@ -11,14 +11,10 @@
             "id": "f314c166666d00d1",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "prompt.md",
-                "mode": "preview",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "prompt"
+              "title": "New tab"
             }
           }
         ]
@@ -185,22 +181,32 @@
   },
   "active": "f314c166666d00d1",
   "lastOpenFiles": [
-    "ReadMe/troubleshooting.html",
-    "ReadMe/runbook.html",
-    "ReadMe/configuration.html",
-    "ReadMe/getting-started.html",
-    "ReadMe/index.html",
-    "ReadMe/assets/site.js",
-    "ReadMe/assets/ReadMe/assets/nav.js",
-    "ReadMe/assets/ReadMe/assets",
-    "ReadMe/assets/ReadMe",
-    "ReadMe/assets/site.css",
-    "ReadMe/assets",
-    "Config/KeyFileLoader.md",
-    "Crypto/KeyFolioBridge.md",
+    "bin/Release/net8.0/runtimes/win/lib/net8.0/System.Security.Cryptography.Pkcs.dll",
+    "bin/Release/net8.0/runtimes/win/lib/net8.0",
+    "bin/Release/net8.0/runtimes/win/lib",
+    "bin/Release/net8.0/runtimes/win",
+    "bin/Release/net8.0/runtimes/win-x86/native/e_sqlite3.dll",
+    "bin/Release/net8.0/runtimes/win-x86/native",
+    "bin/Release/net8.0/runtimes/win-x86",
+    "bin/Release/net8.0/runtimes/win-x64/native/e_sqlite3.dll",
+    "bin/Release/net8.0/runtimes/win-x64/native",
+    "bin/Release/net8.0/runtimes/win-x64",
+    "bin/Release/net8.0/runtimes/win-arm64/native/e_sqlite3.dll",
+    "_md/OriginFile.md",
+    "_md/HowToRun.md",
+    "Reporting/FailureReport.md",
+    "Reporting/ErrorCodes.md",
     "Mail/Mail/Cli/MailFolioArgsParser.md",
     "Mail/Mail/TlsModeParser.md",
     "Mail/TlsMode.md",
+    "Mail/MailSender.md",
+    "Data/SentMailRepository.md",
+    "Crypto/KeyFolioBridge.md",
+    "Crypto/EnvSecretProvider.md",
+    "Config/MailFolioKeyFile.md",
+    "Config/KeyFileLoader.md",
+    "Cli/MailFolioArgs.md",
+    "prompt.md",
     "Reporting/MailFolioException.md"
   ]
 }
