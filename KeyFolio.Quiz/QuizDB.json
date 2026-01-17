@@ -15,6 +15,289 @@
   ],
   "questions": [
     {
+      "id": "KF-Q031",
+      "type": "single",
+      "difficulty": 2,
+      "prompt": "What is the primary role of KeyFolio.Client in the solution?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "Act as a background service for encryption"
+        },
+        {
+          "id": "B",
+          "text": "Provide a human-facing UI for KeyFolio.Core operations"
+        },
+        {
+          "id": "C",
+          "text": "Replace KeyFolio.Console entirely"
+        },
+        {
+          "id": "D",
+          "text": "Store encrypted secrets permanently"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "KeyFolio.Client is a UI implementation built on KeyFolio.Core, designed for deliberate, human-in-the-loop workflows."
+    },
+    {
+      "id": "KF-Q032",
+      "type": "single",
+      "difficulty": 3,
+      "prompt": "Why does KeyFolio.Client intentionally add friction compared to KeyFolio.Console?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "To slow down cryptographic operations"
+        },
+        {
+          "id": "B",
+          "text": "To prevent accidental disclosure or misuse of secrets"
+        },
+        {
+          "id": "C",
+          "text": "Because UI frameworks are slower than CLI tools"
+        },
+        {
+          "id": "D",
+          "text": "To comply with AES-GCM requirements"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "Client UX is designed to protect humans from mistakes, not to optimize speed like CLI tools."
+    },
+    {
+      "id": "KF-Q033",
+      "type": "single",
+      "difficulty": 3,
+      "prompt": "Why does MailFolio.Console store failure information in SQLite?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "To store plaintext email contents"
+        },
+        {
+          "id": "B",
+          "text": "To enable durable, queryable tracking of operational failures"
+        },
+        {
+          "id": "C",
+          "text": "To cache decrypted credentials"
+        },
+        {
+          "id": "D",
+          "text": "Because SMTP requires a database"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "SQLite provides lightweight, durable storage for error tracking without introducing infrastructure dependencies."
+    },
+    {
+      "id": "KF-Q034",
+      "type": "single",
+      "difficulty": 4,
+      "prompt": "If MailFolio cannot decrypt credentials, which component is most likely misconfigured?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "MailKit SMTP client"
+        },
+        {
+          "id": "B",
+          "text": "KeyFolio.Core encryption algorithm"
+        },
+        {
+          "id": "C",
+          "text": "Environment variable or KeyFolioOptions setup"
+        },
+        {
+          "id": "D",
+          "text": "SQLite schema"
+        }
+      ],
+      "answer": {
+        "choiceId": "C"
+      },
+      "explanation": "Most decrypt failures are caused by incorrect passphrase sources or mismatched KeyFolioOptions, not crypto bugs."
+    },
+    {
+      "id": "KF-Q035",
+      "type": "single",
+      "difficulty": 3,
+      "prompt": "Why does MailFolio prefer environment variables over config files for secrets?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "They are faster to read"
+        },
+        {
+          "id": "B",
+          "text": "They are encrypted by default"
+        },
+        {
+          "id": "C",
+          "text": "They reduce the risk of secrets being committed to source control"
+        },
+        {
+          "id": "D",
+          "text": "They are required by .NET"
+        }
+      ],
+      "answer": {
+        "choiceId": "C"
+      },
+      "explanation": "Environment variables keep secrets out of repos and config files while remaining easy to inject at runtime."
+    },
+    {
+      "id": "KF-Q036",
+      "type": "multi",
+      "difficulty": 4,
+      "prompt": "Which data should MailFolio avoid storing even in its SQLite database? (Select all that apply)",
+      "choices": [
+        {
+          "id": "A",
+          "text": "Plaintext email body"
+        },
+        {
+          "id": "B",
+          "text": "SMTP username and password"
+        },
+        {
+          "id": "C",
+          "text": "Error codes and timestamps"
+        },
+        {
+          "id": "D",
+          "text": "Envelope version metadata"
+        }
+      ],
+      "answer": {
+        "choiceIds": [
+          "A",
+          "B"
+        ]
+      },
+      "explanation": "MailFolio stores failure context, not sensitive payloads or credentials."
+    },
+    {
+      "id": "KF-Q037",
+      "type": "single",
+      "difficulty": 4,
+      "prompt": "Why is KeyFolioOptions passed explicitly to KeyFolioCrypto?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "To hide encryption settings from consumers"
+        },
+        {
+          "id": "B",
+          "text": "To make cryptographic parameters explicit and testable"
+        },
+        {
+          "id": "C",
+          "text": "Because .NET requires it"
+        },
+        {
+          "id": "D",
+          "text": "To store the passphrase"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "Explicit options avoid hidden defaults and make crypto behavior deterministic and auditable."
+    },
+    {
+      "id": "KF-Q038",
+      "type": "single",
+      "difficulty": 3,
+      "prompt": "Why does MailFolio.Console run from its own folder instead of relying on repo-relative paths?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "To reduce disk usage"
+        },
+        {
+          "id": "B",
+          "text": "To support standalone deployment and predictable path resolution"
+        },
+        {
+          "id": "C",
+          "text": "To avoid using SQLite"
+        },
+        {
+          "id": "D",
+          "text": "Because PowerShell requires it"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "Using AppContext.BaseDirectory allows MailFolio to behave consistently regardless of where it is deployed."
+    },
+    {
+      "id": "KF-Q039",
+      "type": "single",
+      "difficulty": 5,
+      "prompt": "What is the biggest architectural risk of allowing KeyFolio.Client to shell out to KeyFolio.Console?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "Slower encryption"
+        },
+        {
+          "id": "B",
+          "text": "Coupling UI behavior to process execution and text parsing"
+        },
+        {
+          "id": "C",
+          "text": "Weaker AES keys"
+        },
+        {
+          "id": "D",
+          "text": "Larger binaries"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "Process execution introduces brittle coupling that undermines reliability, UX, and testability."
+    },
+    {
+      "id": "KF-Q040",
+      "type": "single",
+      "difficulty": 3,
+      "prompt": "Which statement best describes the relationship between KeyFolio and MailFolio?",
+      "choices": [
+        {
+          "id": "A",
+          "text": "MailFolio replaces KeyFolio for email encryption"
+        },
+        {
+          "id": "B",
+          "text": "MailFolio is a consumer of KeyFolio-generated envelopes"
+        },
+        {
+          "id": "C",
+          "text": "MailFolio and KeyFolio share a database"
+        },
+        {
+          "id": "D",
+          "text": "MailFolio stores KeyFolio secrets"
+        }
+      ],
+      "answer": {
+        "choiceId": "B"
+      },
+      "explanation": "MailFolio consumes encrypted envelopes produced using KeyFolio.Core; it does not manage crypto itself."
+    },
+    {
       "id": "KF-Q021",
       "type": "single",
       "difficulty": 2,
