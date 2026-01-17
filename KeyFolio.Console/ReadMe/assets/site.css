@@ -1,0 +1,152 @@
+:root {
+  /* KeyFolio.Console theme (teal/blue) */
+  --bg: #07111a;
+  --panel: #0b1a26;
+  --text: #e8f2fb;
+  --muted: #9fb9cc;
+
+  --brand: #2dd4bf;  /* teal */
+  --accent: #60a5fa; /* blue */
+  --danger: #ff6b6b;
+  --ok: #6bff9b;
+
+  --border: rgba(255,255,255,0.09);
+  --shadow: 0 8px 24px rgba(0,0,0,0.45);
+  --radius: 14px;
+
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  color: var(--text);
+  background:
+    radial-gradient(1100px 650px at 15% 0%, rgba(45,212,191,0.12), transparent 60%),
+    radial-gradient(950px 600px at 85% 25%, rgba(96,165,250,0.10), transparent 60%),
+    var(--bg);
+}
+
+a { color: var(--brand); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.wrap {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 18px;
+  padding: 18px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+@media (max-width: 980px) {
+  .wrap { grid-template-columns: 1fr; }
+}
+
+.sidebar, .main {
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.brand {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand .title {
+  font-weight: 800;
+  font-size: 18px;
+  display: flex;
+  gap: 10px;
+}
+
+.badge {
+  font-size: 12px;
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+}
+
+.brand .subtitle {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.nav {
+  padding: 10px;
+  display: grid;
+  gap: 6px;
+}
+
+.nav a {
+  padding: 10px 12px;
+  border-radius: 12px;
+  color: var(--text);
+}
+
+.nav a small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.nav a.active {
+  background: rgba(45,212,191,0.12);
+  border: 1px solid rgba(45,212,191,0.25);
+}
+
+.header {
+  padding: 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.header h1 { margin: 0; font-size: 22px; }
+.header p { margin: 8px 0 0; color: var(--muted); }
+
+.content { padding: 18px; }
+
+.card {
+  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+pre {
+  background: rgba(0,0,0,0.45);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  overflow: auto;
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.callout {
+  border-left: 3px solid rgba(45,212,191,0.6);
+  background: rgba(45,212,191,0.08);
+  padding: 12px 14px;
+  border-radius: 12px;
+  margin: 12px 0;
+}
+
+.callout.warn {
+  border-left-color: rgba(255,107,107,0.6);
+  background: rgba(255,107,107,0.08);
+}
+
+.footer {
+  padding: 14px 18px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted);
+}

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>KeyFolio.Core</name>
+    </assembly>
+    <members>
+        <member name="T:KeyFolio.Core.Crypto.KeyFolioEnvelope">
+            <summary>
+            Self-describing envelope for ciphertext material.
+            Format:
+              keyfolio:v1:&lt;salt&gt;.&lt;nonce&gt;.&lt;ct&gt;
+            Where salt/nonce/ct are Base64Url. ct contains ciphertext+tag.
+            </summary>
+        </member>
+        <member name="M:KeyFolio.Core.Crypto.KeyFolioEnvelope.#ctor(System.String,System.Byte[],System.Byte[],System.Byte[])">
+            <summary>
+            Self-describing envelope for ciphertext material.
+            Format:
+              keyfolio:v1:&lt;salt&gt;.&lt;nonce&gt;.&lt;ct&gt;
+            Where salt/nonce/ct are Base64Url. ct contains ciphertext+tag.
+            </summary>
+        </member>
+        <member name="P:KeyFolio.Core.Crypto.KeyFolioOptions.Aad">
+            <summary>Envelope prefix + AAD string (versioned).</summary>
+        </member>
+        <member name="P:KeyFolio.Core.Crypto.KeyFolioOptions.Pbkdf2Iterations">
+            <summary>PBKDF2 iteration count. (210k is a decent modern baseline.)</summary>
+        </member>
+        <member name="P:KeyFolio.Core.Crypto.KeyFolioOptions.SaltSizeBytes">
+            <summary>Salt size in bytes (per message).</summary>
+        </member>
+        <member name="P:KeyFolio.Core.Crypto.KeyFolioOptions.NonceSizeBytes">
+            <summary>Nonce size for AES-GCM in bytes (12 recommended).</summary>
+        </member>
+        <member name="P:KeyFolio.Core.Crypto.KeyFolioOptions.KeySizeBytes">
+            <summary>Key size in bytes (32 = AES-256).</summary>
+        </member>
+        <member name="T:KeyFolio.Core.Crypto.ISecretProvider">
+            <summary>Provides the shared passphrase (NOT the derived AES key).</summary>
+        </member>
+        <member name="T:KeyFolio.Core.Crypto.DirectSecretProvider">
+            <summary>
+            Simple provider that wraps a provided string.
+            Useful for tests and callers that already have the secret.
+            </summary>
+        </member>
+        <member name="T:KeyFolio.Core.KeyFolio">
+            <summary>
+            Public façade for KeyFolio encryption and decryption.
+            Consumers should start here.
+            </summary>
+        </member>
+        <member name="M:KeyFolio.Core.KeyFolio.Encrypt(System.String,KeyFolio.Core.Crypto.ISecretProvider)">
+            <summary>
+            Encrypts a UTF-8 string and returns a portable, versioned envelope string.
+            </summary>
+        </member>
+        <member name="M:KeyFolio.Core.KeyFolio.Decrypt(System.String,KeyFolio.Core.Crypto.ISecretProvider)">
+            <summary>
+            Decrypts a KeyFolio envelope string back into the original UTF-8 text.
+            </summary>
+        </member>
+    </members>
+</doc>

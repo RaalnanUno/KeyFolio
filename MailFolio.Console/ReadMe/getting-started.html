@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MailFolio — Getting Started</title>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <div class="wrap">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="title">MailFolio.Console <span class="badge">Guide</span></div>
+        <div class="subtitle">Build and first run (PowerShell).</div>
+      </div>
+      <nav id="nav" class="nav"></nav>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        <h1>Getting Started</h1>
+        <p>Start-to-finish: build → verify env → run a test email.</p>
+      </div>
+
+      <div class="content">
+        <div class="callout">
+          <b>Note:</b> In PowerShell, use <span class="kbd">#</span> for comments (not <span class="kbd">@REM</span>).
+        </div>
+
+        <h2>Build (Release)</h2>
+        <pre><code>dotnet clean
+dotnet restore
+dotnet build -c Release</code></pre>
+
+        <h2>Verify environment variables (right where issues usually show up)</h2>
+        <p>
+          Your run attempts “start to finish”. If anything fails later (decrypt/auth),
+          this checkpoint confirms the current process can actually see the values.
+        </p>
+
+        <pre><code># Confirm the process sees the env vars
+
+[Environment]::GetEnvironmentVariable("MAILFOLIO_PASSPHRASE","Process")
+[Environment]::GetEnvironmentVariable("MAILFOLIO_PASSPHRASE","User")
+[Environment]::GetEnvironmentVariable("MAILFOLIO_PASSPHRASE","Machine")
+
+[Environment]::GetEnvironmentVariable("MAILFOLIO_KEYFILE","Process")
+[Environment]::GetEnvironmentVariable("MAILFOLIO_KEYFILE","User")
+[Environment]::GetEnvironmentVariable("MAILFOLIO_KEYFILE","Machine")
+
+Test-Path $env:MAILFOLIO_KEYFILE</code></pre>
+
+        <h2>Run a plain text test email</h2>
+        <pre><code>dotnet run -c Release -- `
+  --to "someone@agency.mil" `
+  --subject "MailFolio Test" `
+  --body "Hello from MailFolio."</code></pre>
+
+        <div class="callout ok">
+          <b>Success behavior:</b> Exit code 0. No SQLite failure row is written.
+        </div>
+      </div>
+
+      <div class="footer">
+        Last opened: <span id="buildStamp"></span>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>

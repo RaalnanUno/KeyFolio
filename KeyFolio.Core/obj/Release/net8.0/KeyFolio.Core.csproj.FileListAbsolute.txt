@@ -1,0 +1,14 @@
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Core\bin\Release\net8.0\KeyFolio.Core.deps.json
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Core\bin\Release\net8.0\KeyFolio.Core.dll
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Core\bin\Release\net8.0\KeyFolio.Core.pdb
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Core\bin\Release\net8.0\KeyFolio.Core.xml
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Core\obj\Release\net8.0\KeyFolio.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Core\obj\Release\net8.0\KeyFolio.Core.AssemblyInfoInputs.cache
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Core\obj\Release\net8.0\KeyFolio.Core.AssemblyInfo.cs
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Core\obj\Release\net8.0\KeyFolio.Core.csproj.CoreCompileInputs.cache
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Core\obj\Release\net8.0\KeyFolio.Core.sourcelink.json
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Core\obj\Release\net8.0\KeyFolio.Core.dll
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Core\obj\Release\net8.0\refint\KeyFolio.Core.dll
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Core\obj\Release\net8.0\KeyFolio.Core.xml
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Core\obj\Release\net8.0\KeyFolio.Core.pdb
+C:\source\repos\RaalnanUno\KeyFolio\KeyFolio.Core\obj\Release\net8.0\ref\KeyFolio.Core.dll

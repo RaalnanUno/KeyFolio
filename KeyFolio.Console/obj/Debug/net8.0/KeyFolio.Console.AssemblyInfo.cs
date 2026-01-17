@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KeyFolio.Console")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cd385363b39177f87b6103ae8f1117269c72f73d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+90aec91e11ec41508686d5c7fbdfe8ce05d049eb")]
 [assembly: System.Reflection.AssemblyProductAttribute("KeyFolio.Console")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KeyFolio.Console")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

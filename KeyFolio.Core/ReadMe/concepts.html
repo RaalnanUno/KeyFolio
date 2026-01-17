@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KeyFolio.Core — Concepts</title>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <div class="wrap">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="title">KeyFolio.Core <span class="badge">Guide</span></div>
+        <div class="subtitle">Core concepts used across implementations.</div>
+      </div>
+      <nav id="nav" class="nav"></nav>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        <h1>Concepts</h1>
+        <p>Secret providers, envelope strings, and why KeyFolio.Core is structured this way.</p>
+      </div>
+
+      <div class="content">
+        <h2>ISecretProvider</h2>
+        <div class="card">
+          <p>
+            <code>ISecretProvider</code> is the abstraction that supplies the secret (typically a passphrase).
+            KeyFolio.Core intentionally does not dictate where secrets come from.
+          </p>
+          <ul>
+            <li>Environment variables (MailFolio’s current approach)</li>
+            <li>User prompt / secure input</li>
+            <li>OS-provided secure stores</li>
+            <li>Enterprise vaults (future-ready)</li>
+          </ul>
+        </div>
+
+        <h2>Envelope strings (encrypted text)</h2>
+        <div class="card">
+          <p>
+            An envelope string is an encrypted representation of a secret. Implementations store envelope strings
+            (safe-ish to store) and decrypt them at runtime when needed.
+          </p>
+          <p class="muted">
+            In MailFolio: the key file stores <code>UsernameEnc</code> and <code>PasswordEnc</code> as envelope strings.
+          </p>
+        </div>
+
+        <h2>KeyFolioOptions</h2>
+        <div class="card">
+          <p>
+            <code>KeyFolioOptions</code> defines crypto parameters (Aad, PBKDF2 iterations, sizes, etc.).
+            It does <b>not</b> hold the passphrase. The passphrase comes from <code>ISecretProvider</code>.
+          </p>
+        </div>
+
+        <h2>End-to-end flow (how implementations use Core)</h2>
+        <pre><code>Implementation (MailFolio.Console)
+  1) Load envelope strings from JSON (UsernameEnc, PasswordEnc)
+  2) Create ISecretProvider (EnvSecretProvider uses MAILFOLIO_PASSPHRASE)
+  3) Create KeyFolioCrypto(new KeyFolioOptions())
+  4) Decrypt(envelopeText, secretProvider) → plaintext
+  5) Use plaintext briefly, then discard</code></pre>
+
+        <div class="callout ok">
+          <b>Design intent:</b> Apps can swap secret sources without changing crypto logic.
+          KeyFolio.Core stays stable while implementations adapt to their environment.
+        </div>
+      </div>
+
+      <div class="footer">
+        Last opened: <span id="buildStamp"></span>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>

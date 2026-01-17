@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MailFolio — Configuration</title>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <div class="wrap">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="title">MailFolio.Console <span class="badge">Guide</span></div>
+        <div class="subtitle">Env vars + key file schema + SQLite path.</div>
+      </div>
+      <nav id="nav" class="nav"></nav>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        <h1>Configuration</h1>
+        <p>Environment variables, key file JSON, and where SQLite writes.</p>
+      </div>
+
+      <div class="content">
+        <h2>Environment Variables</h2>
+
+        <table class="table">
+          <thead>
+            <tr><th>Name</th><th>Required</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>MAILFOLIO_PASSPHRASE</code></td>
+              <td>Yes</td>
+              <td>Passphrase used by KeyFolio secret provider to decrypt envelope strings.</td>
+            </tr>
+            <tr>
+              <td><code>MAILFOLIO_KEYFILE</code></td>
+              <td>Yes</td>
+              <td>Absolute path to the JSON key file containing server settings and encrypted creds.</td>
+            </tr>
+            <tr>
+              <td><code>MAILFOLIO_DB</code></td>
+              <td>No</td>
+              <td>SQLite DB path for failure tracking. If not set, defaults under the executable folder.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Key file JSON schema (example)</h2>
+        <pre><code>{
+  "Server": "smtp.example.mil",
+  "Port": 587,
+  "TlsMode": "StartTls",
+  "FromEmail": "no-reply@example.mil",
+  "FromName": "MailFolio",
+  "UsernameEnc": "&lt;KeyFolio envelope text&gt;",
+  "PasswordEnc": "&lt;KeyFolio envelope text&gt;"
+}</code></pre>
+
+        <div class="callout">
+          <b>TLS modes:</b>
+          <ul>
+            <li><code>StartTls</code> (recommended)</li>
+            <li><code>SslOnConnect</code></li>
+            <li><code>None</code></li>
+          </ul>
+        </div>
+
+        <h2>SQLite “error tracking” database</h2>
+        <p>
+          The DB is written <b>only on failure</b> (connect/auth/send/decrypt/etc.).
+          Successful sends do not create rows.
+        </p>
+
+        <div class="card">
+          <h3>DB location</h3>
+          <ul>
+            <li>If <code>MAILFOLIO_DB</code> is set → use that exact file path.</li>
+            <li>Else → <code>bin\Release\net8.0\Data\MailFolio.db</code> (relative to the built output).</li>
+          </ul>
+
+          <h3>Table behavior</h3>
+          <ul>
+            <li>Table: <code>SentMail</code></li>
+            <li>Primary Key: <code>ErrorCode</code></li>
+            <li>Failures upsert by <code>ErrorCode</code> and increment <code>OccurrenceCount</code>.</li>
+            <li>Stored payload is sanitized (no body/subject/username/password).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer">
+        Last opened: <span id="buildStamp"></span>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>
