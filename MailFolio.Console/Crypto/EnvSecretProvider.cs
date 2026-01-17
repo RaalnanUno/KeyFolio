@@ -1,6 +1,7 @@
 using KeyFolio.Core.Crypto;
 
 namespace MailFolio.Console.Crypto;
+using MailFolio.Console.Reporting;
 
 public sealed class EnvSecretProvider : ISecretProvider
 {
@@ -15,7 +16,8 @@ public sealed class EnvSecretProvider : ISecretProvider
     {
         var v = Environment.GetEnvironmentVariable(_envVar);
         if (string.IsNullOrWhiteSpace(v))
-            throw new InvalidOperationException($"Missing required environment variable '{_envVar}'.");
+            throw new MailFolioException(ErrorCodes.MissingEnvVar, $"Missing required environment variable '{_envVar}'.");
+
         return v;
     }
 }

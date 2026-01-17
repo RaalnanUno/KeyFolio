@@ -1,6 +1,5 @@
-using System.Diagnostics;
 using System.Text.Json;
-using KeyFolio.Core;
+using MailFolio.Console;
 using MailFolio.Console.Cli;
 using MailFolio.Console.Config;
 using MailFolio.Console.Crypto;
@@ -8,168 +7,223 @@ using MailFolio.Console.Data;
 using MailFolio.Console.Mail;
 using MailFolio.Console.Reporting;
 
-namespace MailFolio.Console;
-
-public static class Program
+static string RequireEnv(string name, string errorCode)
 {
-    public static int Main(string[] args)
-    {
-        var startedUtc = DateTimeOffset.UtcNow;
-        var sw = Stopwatch.StartNew();
+    var v = Environment.GetEnvironmentVariable(name);
+    if (string.IsNullOrWhiteSpace(v))
+        throw new MailFolioException(errorCode, $"Missing required environment variable '{name}'.");
+    return v;
+}
 
-        // Safe context placeholders (filled as we go)
-        bool dryRun = false;
-        string? fromEmail = null;
-        string? toEmail = null;
-        string? server = null;
-        int? port = null;
-        string? tlsMode = null;
-
-        string? bodySource = null;
-        bool? isHtml = null;
-        string[] attachments = Array.Empty<string>();
-
-        try
-        {
-            // 1) Read env vars (landmine handling)
-            var passphraseEnvName = "MAILFOLIO_PASSPHRASE";
-            var keyFilePathEnvName = "MAILFOLIO_KEYFILE";
-
-            var keyFilePath = RequireEnv(keyFilePathEnvName); // may throw MissingEnvVar
-            _ = RequireEnv(passphraseEnvName);                // ensures it exists (secret provider will read it again)
-
-            // 2) Parse args
-            var parsed = MailFolioArgsParser.Parse(args);
-            dryRun = parsed.DryRun;
-            toEmail = parsed.ToEmail;
-            attachments = parsed.Attachments.ToArray();
-
-            // 3) Load keyfile
-            var keyFile = KeyFileLoader.Load(keyFilePath);
-
-            fromEmail = keyFile.FromEmail;
-            server = keyFile.Server;
-            port = keyFile.Port;
-            tlsMode = keyFile.TlsMode;
-
-            // 4) Resolve body mode (BodyFile => HTML else Body => text)
-            var resolvedBody = MailSender.ResolveBody(parsed);
-            bodySource = resolvedBody.Source;
-            isHtml = resolvedBody.IsHtml;
-
-            // 5) Decrypt SMTP credentials using KeyFolio.Core
-            var keyFolio = new KeyFolio();
-            var secretProvider = new EnvSecretProvider(passphraseEnvName);
-
-            string smtpUser;
-            string smtpPass;
-            try
-            {
-                smtpUser = keyFolio.Decrypt(keyFile.UsernameEnc, secretProvider);
-                smtpPass = keyFolio.Decrypt(keyFile.PasswordEnc, secretProvider);
-            }
-            catch (Exception ex)
-            {
-                throw new MailFolioException(ErrorCodes.KeyFolioDecryptFailed, "Failed to decrypt SMTP credentials.", ex);
-            }
-
-            // 6) Send (unless dry run)
-            if (!dryRun)
-            {
-                _ = MailSender.Send(keyFile, smtpUser, smtpPass, parsed, resolvedBody);
-            }
-
-            // Success: do NOT write DB record
-            Console.Out.Write("True");
-            return 0;
-        }
-        catch (Exception ex)
-        {
-            var finishedUtc = DateTimeOffset.UtcNow;
-            var durationMs = sw.ElapsedMilliseconds;
-
-            // Determine stable error code
-            var code = GetErrorCode(ex);
-
-            // Build sanitized failure report (no subject/body, no username/password)
-            var report = new FailureReport
-            {
-                ErrorCode = code,
-                StartedUtc = startedUtc,
-                FinishedUtc = finishedUtc,
-                DurationMs = durationMs,
-                DryRun = dryRun,
-
-                FromEmail = fromEmail,
-                ToEmail = toEmail,
-                Server = server,
-                Port = port,
-                TlsMode = tlsMode,
-
-                BodySource = bodySource,
-                IsHtml = isHtml,
-                Attachments = attachments,
-
-                Error = ToErrorInfo(ex)
-            };
-
-            // Persist failure report (best effort)
-            try
-            {
-                var dbPath = Environment.GetEnvironmentVariable("MAILFOLIO_DB")
-                             ?? Path.Combine(AppContext.BaseDirectory, "Data", "MailFolio.db");
-
-                var schemaSql = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "schema.sql"));
-                SentMailRepository.EnsureCreated(dbPath, schemaSql);
-
-                var jsonBytes = JsonSerializer.SerializeToUtf8Bytes(report);
-                SentMailRepository.UpsertFailure(
-                    dbPath: dbPath,
-                    errorCode: code,
-                    lastOccurredUtc: finishedUtc,
-                    dryRun: dryRun,
-                    fromEmail: fromEmail,
-                    toEmail: toEmail,
-                    server: server,
-                    port: port,
-                    tlsMode: tlsMode,
-                    resultJson: jsonBytes
-                );
-            }
-            catch
-            {
-                // stay silent: user asked for no logs
-            }
-
-            Console.Out.Write("False");
-            return 1;
-        }
-    }
-
-    private static string RequireEnv(string name)
-    {
-        var v = Environment.GetEnvironmentVariable(name);
-        if (string.IsNullOrWhiteSpace(v))
-            throw new MailFolioException(ErrorCodes.MissingEnvVar, $"Missing required environment variable '{name}'.");
+static string ResolveDbPath()
+{
+    var v = Environment.GetEnvironmentVariable("MAILFOLIO_DB");
+    if (!string.IsNullOrWhiteSpace(v))
         return v;
+
+    // Default under exe folder for stability
+    var baseDir = AppContext.BaseDirectory;
+    return Path.Combine(baseDir, "Data", "MailFolio.db");
+}
+
+static string LoadSchemaSql()
+{
+    // Copy-to-output (see csproj below)
+    var schemaPath = Path.Combine(AppContext.BaseDirectory, "Sql", "schema.sql");
+    if (!File.Exists(schemaPath))
+        throw new MailFolioException(ErrorCodes.InvalidKeyFile, $"Missing schema file at '{schemaPath}'. Ensure Sql\\schema.sql is copied to output.");
+    return File.ReadAllText(schemaPath);
+}
+
+var startedUtc = DateTimeOffset.UtcNow;
+
+// DEBUG: Dump KeyFolioOptions shape
+if (args.Any(a => a.Equals("--dumpKeyFolio", StringComparison.OrdinalIgnoreCase)))
+{
+    try
+    {
+        var optionsType = Type.GetType("KeyFolio.Core.Crypto.KeyFolioOptions, KeyFolio.Core", throwOnError: true)!;
+
+        Out.Info($"KeyFolioOptions: {optionsType.FullName}");
+        Out.Info("Constructors:");
+        foreach (var c in optionsType.GetConstructors())
+        {
+            var ps = c.GetParameters();
+            Out.Info("  " + optionsType.Name + "(" + string.Join(", ", ps.Select(p => $"{p.ParameterType.Name} {p.Name}")) + ")");
+        }
+
+        Out.Info("Properties:");
+        foreach (var p in optionsType.GetProperties())
+        {
+            Out.Info($"  {p.PropertyType.Name} {p.Name}  CanWrite={p.CanWrite}");
+        }
+
+        return 0;
+    }
+    catch (Exception ex)
+    {
+        Out.Error($"Dump failed: {ex.GetType().Name}: {ex.Message}");
+        return 1;
+    }
+}
+
+if (args.Any(a => a.Equals("--dumpKeyFolioCrypto", StringComparison.OrdinalIgnoreCase)))
+{
+    try
+    {
+        var cryptoType = Type.GetType("KeyFolio.Core.Crypto.KeyFolioCrypto, KeyFolio.Core", throwOnError: true)!;
+
+        Out.Info($"KeyFolioCrypto: {cryptoType.FullName}");
+
+        Out.Info("Constructors:");
+        foreach (var c in cryptoType.GetConstructors())
+        {
+            var ps = c.GetParameters();
+            Out.Info("  " + cryptoType.Name + "(" + string.Join(", ", ps.Select(p => $"{p.ParameterType.FullName} {p.Name}")) + ")");
+        }
+
+        Out.Info("Methods containing 'Decrypt' or 'Unprotect':");
+        foreach (var m in cryptoType.GetMethods().Where(m =>
+                     m.Name.Contains("Decrypt", StringComparison.OrdinalIgnoreCase) ||
+                     m.Name.Contains("Unprotect", StringComparison.OrdinalIgnoreCase)))
+        {
+            var ps = m.GetParameters();
+            Out.Info($"  {m.ReturnType.Name} {m.Name}({string.Join(", ", ps.Select(p => $"{p.ParameterType.Name} {p.Name}"))})");
+        }
+
+        return 0;
+    }
+    catch (Exception ex)
+    {
+        Out.Error($"Dump failed: {ex.GetType().Name}: {ex.Message}");
+        return 1;
+    }
+}
+
+
+try
+{
+    var parsed = MailFolioArgsParser.Parse(args);
+
+    var keyFilePath = RequireEnv("MAILFOLIO_KEYFILE", ErrorCodes.MissingEnvVar);
+    _ = RequireEnv("MAILFOLIO_PASSPHRASE", ErrorCodes.MissingEnvVar); // validated by EnvSecretProvider later
+
+    var dbPath = ResolveDbPath();
+    var schemaSql = LoadSchemaSql();
+    SentMailRepository.EnsureCreated(dbPath, schemaSql);
+
+    var keyFile = KeyFileLoader.Load(keyFilePath);
+
+    // Decrypt creds
+    var smtpUsername = KeyFolioBridge.DecryptWithPassphraseEnv("MAILFOLIO_PASSPHRASE", keyFile.UsernameEnc);
+    var smtpPassword = KeyFolioBridge.DecryptWithPassphraseEnv("MAILFOLIO_PASSPHRASE", keyFile.PasswordEnc);
+
+    var body = MailSender.ResolveBody(parsed);
+
+    if (parsed.DryRun)
+    {
+        Out.Info("[DRY RUN] Parsed OK. Skipping send.");
+        return 0;
     }
 
-    private static string GetErrorCode(Exception ex)
-    {
-        // If it’s one of ours, trust it.
-        if (ex is MailFolioException mf)
-            return mf.ErrorCode;
+    var messageId = MailSender.Send(keyFile, smtpUsername, smtpPassword, parsed, body);
 
-        // Otherwise classify common MailKit failures if you want to extend later:
-        // Keep it stable: don't explode the code list.
-        return ErrorCodes.Unknown;
-    }
+    Out.Info($"Sent. Message-Id: {messageId ?? "(none)"}");
+    return 0;
+}
+catch (MailFolioException ex)
+{
+    var finishedUtc = DateTimeOffset.UtcNow;
 
-    private static FailureReport.ErrorInfo ToErrorInfo(Exception ex) => new()
+    // Build safe failure report (no subject/body/creds)
+    FailureReport report = new()
     {
-        Type = ex.GetType().FullName ?? ex.GetType().Name,
-        Message = ex.Message,
-        StackTrace = ex.StackTrace,
-        Inner = ex.InnerException is null ? null : ToErrorInfo(ex.InnerException)
+        ErrorCode = ex.ErrorCode,
+        StartedUtc = startedUtc,
+        FinishedUtc = finishedUtc,
+        DurationMs = (long)(finishedUtc - startedUtc).TotalMilliseconds,
+
+        // best-effort: parse args safely if possible for context
+        DryRun = args.Contains("--dryRun", StringComparer.OrdinalIgnoreCase),
+
+        Error = new FailureReport.ErrorInfo
+        {
+            Type = ex.GetType().FullName ?? "Exception",
+            Message = ex.Message,
+            StackTrace = ex.StackTrace,
+            Inner = ex.InnerException is null ? null : new FailureReport.ErrorInfo
+            {
+                Type = ex.InnerException.GetType().FullName ?? "Exception",
+                Message = ex.InnerException.Message,
+                StackTrace = ex.InnerException.StackTrace
+            }
+        }
     };
+
+    // Try to enrich context from argv without re-parsing deeply
+    string? toEmail = TryGetArgValue(args, "--to");
+    report = report with { ToEmail = toEmail };
+
+    // Keyfile context if possible
+    var keyFilePath = Environment.GetEnvironmentVariable("MAILFOLIO_KEYFILE");
+    MailFolioKeyFile? keyFile = null;
+    if (!string.IsNullOrWhiteSpace(keyFilePath) && File.Exists(keyFilePath))
+    {
+        try { keyFile = KeyFileLoader.Load(keyFilePath); } catch { /* ignore */ }
+    }
+
+    report = report with
+    {
+        FromEmail = keyFile?.FromEmail,
+        Server = keyFile?.Server,
+        Port = keyFile?.Port,
+        TlsMode = keyFile?.TlsMode
+    };
+
+    var dbPath = ResolveDbPath();
+
+    try
+    {
+        var schemaSql = LoadSchemaSql();
+        SentMailRepository.EnsureCreated(dbPath, schemaSql);
+
+        var jsonBytes = JsonSerializer.SerializeToUtf8Bytes(report, new JsonSerializerOptions { WriteIndented = true });
+
+        SentMailRepository.UpsertFailure(
+            dbPath: dbPath,
+            errorCode: report.ErrorCode,
+            lastOccurredUtc: finishedUtc,
+            dryRun: report.DryRun,
+            fromEmail: report.FromEmail,
+            toEmail: report.ToEmail,
+            server: report.Server,
+            port: report.Port,
+            tlsMode: report.TlsMode,
+            resultJson: jsonBytes
+        );
+    }
+    catch (Exception writeEx)
+    {
+        Out.Error($"Failed to write failure report to DB: {writeEx.Message}");
+    }
+
+    if (ex.ErrorCode == ErrorCodes.KeyFolioDecryptFailed && ex.InnerException is not null)
+        Out.Error($"Inner: {ex.InnerException.GetType().Name}: {ex.InnerException.Message}");
+
+    return 2;
+}
+catch (Exception ex)
+{
+    Out.Error($"MailFolio failed: [{ErrorCodes.Unknown}] {ex.Message}");
+    return 99;
+}
+
+static string? TryGetArgValue(string[] argv, string key)
+{
+    for (int i = 0; i < argv.Length - 1; i++)
+    {
+        if (argv[i].Equals(key, StringComparison.OrdinalIgnoreCase))
+            return argv[i + 1];
+    }
+    return null;
 }

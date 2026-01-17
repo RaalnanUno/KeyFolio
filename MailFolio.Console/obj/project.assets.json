@@ -32,10 +32,10 @@
           }
         }
       },
-      "Microsoft.Data.Sqlite/8.0.11": {
+      "Microsoft.Data.Sqlite/8.0.10": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Data.Sqlite.Core": "8.0.11",
+          "Microsoft.Data.Sqlite.Core": "8.0.10",
           "SQLitePCLRaw.bundle_e_sqlite3": "2.1.6"
         },
         "compile": {
@@ -45,7 +45,7 @@
           "lib/netstandard2.0/_._": {}
         }
       },
-      "Microsoft.Data.Sqlite.Core/8.0.11": {
+      "Microsoft.Data.Sqlite.Core/8.0.10": {
         "type": "package",
         "dependencies": {
           "SQLitePCLRaw.core": "2.1.6"
@@ -330,24 +330,24 @@
         "mailkit.nuspec"
       ]
     },
-    "Microsoft.Data.Sqlite/8.0.11": {
-      "sha512": "6JocV6S1akKlXaDVpRmmwc9d/M7wXBmiEZ7RxB5lxDk+er9Xi3P+yVYVnh+6IJ+Y6v8pecGWhGwcgH1mONcLuw==",
+    "Microsoft.Data.Sqlite/8.0.10": {
+      "sha512": "WN+qgrEcXg66YHtICl0W4If9v98PBenIj/INVkJaC+wqGX/Zus3aqyv6EI17EBRsw6tcvWsKd980X5iQ7wcj1Q==",
       "type": "package",
-      "path": "microsoft.data.sqlite/8.0.11",
+      "path": "microsoft.data.sqlite/8.0.10",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "PACKAGE.md",
         "lib/netstandard2.0/_._",
-        "microsoft.data.sqlite.8.0.11.nupkg.sha512",
+        "microsoft.data.sqlite.8.0.10.nupkg.sha512",
         "microsoft.data.sqlite.nuspec"
       ]
     },
-    "Microsoft.Data.Sqlite.Core/8.0.11": {
-      "sha512": "PrDkI9SeU/MEP/IHriczeYmRVbzEcfp66UlZRjL5ikHIJGIYOrby55GoehLCJzJiTwJ+rGkjSRctZnWgfC95fg==",
+    "Microsoft.Data.Sqlite.Core/8.0.10": {
+      "sha512": "i95bgLqp6rJzmhQEtGhVVHnk1nYAhr/pLDul676PnwI/d7uDSSGs2ZPU9aP0VOuppkZaNinQOUCrD7cstDbQiQ==",
       "type": "package",
-      "path": "microsoft.data.sqlite.core/8.0.11",
+      "path": "microsoft.data.sqlite.core/8.0.10",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -359,7 +359,7 @@
         "lib/net8.0/Microsoft.Data.Sqlite.xml",
         "lib/netstandard2.0/Microsoft.Data.Sqlite.dll",
         "lib/netstandard2.0/Microsoft.Data.Sqlite.xml",
-        "microsoft.data.sqlite.core.8.0.11.nupkg.sha512",
+        "microsoft.data.sqlite.core.8.0.10.nupkg.sha512",
         "microsoft.data.sqlite.core.nuspec"
       ]
     },
@@ -584,7 +584,7 @@
     "net8.0": [
       "KeyFolio.Core >= 1.0.0",
       "MailKit >= 4.10.0",
-      "Microsoft.Data.Sqlite >= 8.0.11"
+      "Microsoft.Data.Sqlite >= 8.0.10"
     ]
   },
   "packageFolders": {
@@ -647,7 +647,7 @@
           },
           "Microsoft.Data.Sqlite": {
             "target": "Package",
-            "version": "[8.0.11, )"
+            "version": "[8.0.10, )"
           }
         },
         "imports": [

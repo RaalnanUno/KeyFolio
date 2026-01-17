@@ -125,7 +125,7 @@
             },
             "Microsoft.Data.Sqlite": {
               "target": "Package",
-              "version": "[8.0.11, )"
+              "version": "[8.0.10, )"
             }
           },
           "imports": [

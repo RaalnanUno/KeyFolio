@@ -1,6 +1,0 @@
-C:\source\repos\RaalnanUno\KeyFolio\MailFolio.Console\obj\Debug\net8.0\MailFolio.Console.csproj.AssemblyReference.cache
-C:\source\repos\RaalnanUno\KeyFolio\MailFolio.Console\obj\Debug\net8.0\MailFolio.Console.GeneratedMSBuildEditorConfig.editorconfig
-C:\source\repos\RaalnanUno\KeyFolio\MailFolio.Console\obj\Debug\net8.0\MailFolio.Console.AssemblyInfoInputs.cache
-C:\source\repos\RaalnanUno\KeyFolio\MailFolio.Console\obj\Debug\net8.0\MailFolio.Console.AssemblyInfo.cs
-C:\source\repos\RaalnanUno\KeyFolio\MailFolio.Console\obj\Debug\net8.0\MailFolio.Console.csproj.CoreCompileInputs.cache
-C:\source\repos\RaalnanUno\KeyFolio\MailFolio.Console\obj\Debug\net8.0\MailFolio.Console.sourcelink.json

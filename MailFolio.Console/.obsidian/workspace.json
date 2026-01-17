@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "prompt.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
@@ -184,5 +184,23 @@
     }
   },
   "active": "f314c166666d00d1",
-  "lastOpenFiles": []
+  "lastOpenFiles": [
+    "ReadMe",
+    "obj/Release/net8.0/generated",
+    "msbuild.binlog",
+    "Config/KeyFileLoader.md",
+    "Crypto/KeyFolioBridge.md",
+    "Mail/Mail/Cli/MailFolioArgsParser.md",
+    "Mail/Mail/TlsModeParser.md",
+    "Mail/TlsMode.md",
+    "Reporting/MailFolioException.md",
+    "bin/Release/net8.0/KeyFolio.Core.pdb",
+    "bin/Release/net8.0/KeyFolio.Core.dll",
+    "bin/Release/net8.0/MailFolio.Console.pdb",
+    "obj/Release/net8.0/ref/MailFolio.Console.dll",
+    "bin/Release/net8.0/MailFolio.Console.dll",
+    "bin/Release/net8.0/MailFolio.Console.runtimeconfig.json",
+    "obj/Release/net8.0/MailFolio.Console.genruntimeconfig.cache",
+    "bin/Release/net8.0/MailFolio.Console.deps.json"
+  ]
 }
