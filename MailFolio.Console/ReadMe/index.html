@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MailFolio Console — Implementation Guide</title>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <div class="wrap">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="title">MailFolio.Console <span class="badge">Guide</span></div>
+        <div class="subtitle">
+          Runbook + implementation notes for the console sender.<br/>
+          Portable multi-page HTML docs.
+        </div>
+      </div>
+      <nav id="nav" class="nav"></nav>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        <h1>Implementation Guide</h1>
+        <p>Build, configure, and run MailFolio.Console. Includes troubleshooting and operational notes.</p>
+      </div>
+
+      <div class="content">
+        <div class="card">
+          <h2>What MailFolio.Console does</h2>
+          <ul>
+            <li>Loads SMTP config from <span class="kbd">MAILFOLIO_KEYFILE</span> (JSON).</li>
+            <li>Reads passphrase from <span class="kbd">MAILFOLIO_PASSPHRASE</span>.</li>
+            <li>Decrypts <span class="kbd">UsernameEnc</span> and <span class="kbd">PasswordEnc</span> using KeyFolio.</li>
+            <li>Sends email via SMTP using MailKit.</li>
+            <li>On failure, writes a sanitized error record to SQLite (no body/subject/credentials stored).</li>
+          </ul>
+        </div>
+
+        <div class="callout ok">
+          <b>Good to know:</b> the SQLite “sent mail error tracking” DB is written <b>only on failures</b>.
+          Successful sends do not create rows.
+        </div>
+
+        <h2>Where to start</h2>
+        <ol>
+          <li>Go to <a href="getting-started.html">Getting Started</a> for build + first run.</li>
+          <li>Go to <a href="configuration.html">Configuration</a> for env vars and key file schema.</li>
+          <li>Use <a href="runbook.html">Runbook</a> for common run patterns.</li>
+          <li>Use <a href="troubleshooting.html">Troubleshooting</a> for failure codes + diagnostics.</li>
+        </ol>
+      </div>
+
+      <div class="footer">
+        Generated docs (static HTML). Last opened: <span id="buildStamp"></span>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>

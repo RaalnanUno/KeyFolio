@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MailFolio — Troubleshooting</title>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <div class="wrap">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="title">MailFolio.Console <span class="badge">Guide</span></div>
+        <div class="subtitle">Common failure modes + what to check.</div>
+      </div>
+      <nav id="nav" class="nav"></nav>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        <h1>Troubleshooting</h1>
+        <p>Failure codes, common causes, and fast diagnostics.</p>
+      </div>
+
+      <div class="content">
+        <h2>First check: does this process see your env vars?</h2>
+        <pre><code>[Environment]::GetEnvironmentVariable("MAILFOLIO_PASSPHRASE","Process")
+[Environment]::GetEnvironmentVariable("MAILFOLIO_KEYFILE","Process")
+Test-Path $env:MAILFOLIO_KEYFILE</code></pre>
+
+        <h2>Common Error Codes</h2>
+        <table class="table">
+          <thead>
+            <tr><th>ErrorCode</th><th>Meaning</th><th>What to check</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>MissingEnvVar</code></td>
+              <td>Required env var not found</td>
+              <td>Verify process/user/machine scopes; reopen terminal after setting.</td>
+            </tr>
+            <tr>
+              <td><code>MissingKeyFile</code></td>
+              <td>Key file path not found</td>
+              <td>Confirm <code>MAILFOLIO_KEYFILE</code> and <code>Test-Path</code> returns True.</td>
+            </tr>
+            <tr>
+              <td><code>InvalidKeyFile</code></td>
+              <td>JSON invalid or missing fields</td>
+              <td>Validate JSON and required fields (Server/FromEmail/UsernameEnc/PasswordEnc).</td>
+            </tr>
+            <tr>
+              <td><code>KeyFolioDecryptFailed</code></td>
+              <td>Decrypt failed</td>
+              <td>Passphrase scope/value, KeyFolio envelope strings, or KeyFolio API wiring.</td>
+            </tr>
+            <tr>
+              <td><code>SmtpConnectFailed</code></td>
+              <td>Cannot connect / TLS negotiation failed</td>
+              <td>Server/port/TLS mode, network access, firewall, DNS.</td>
+            </tr>
+            <tr>
+              <td><code>SmtpAuthFailed</code></td>
+              <td>SMTP auth rejected</td>
+              <td>Username/password correctness, account lock, allowed auth mechanisms.</td>
+            </tr>
+            <tr>
+              <td><code>SmtpSendFailed</code></td>
+              <td>Server rejected message</td>
+              <td>Relay permissions, recipient, attachment limits, policy restrictions.</td>
+            </tr>
+            <tr>
+              <td><code>DbWriteFailed</code></td>
+              <td>Could not write SQLite failure record</td>
+              <td>DB path permissions, folder exists, file locks.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Verify failure DB exists (only after failures)</h2>
+        <pre><code># If MAILFOLIO_DB is set:
+$env:MAILFOLIO_DB
+
+# Otherwise default:
+Resolve-Path .\bin\Release\net8.0\Data\MailFolio.db</code></pre>
+
+        <div class="callout warn">
+          <b>Reminder:</b> successful sends do not write DB rows. Force a failure to confirm logging works.
+        </div>
+      </div>
+
+      <div class="footer">
+        Last opened: <span id="buildStamp"></span>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>
